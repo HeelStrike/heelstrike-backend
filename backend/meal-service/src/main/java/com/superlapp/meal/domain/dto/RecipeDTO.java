@@ -1,4 +1,4 @@
-package com.superlapp.meal.domain;
+package com.superlapp.meal.domain.dto;
 
 import com.superlapp.core.BaseDTO;
 
@@ -8,10 +8,11 @@ import java.util.List;
 public class RecipeDTO extends BaseDTO {
 
     private String cookingInstructions;
-    private List<String> ingredients = new ArrayList<>();
-    private List<String> allergens = new ArrayList<>();
-    private List<String> dietarySuitability = new ArrayList<>();
+    private List<AllergenDTO> allergens = new ArrayList<>();
+    private List<DietDTO> dietarySuitability = new ArrayList<>();
     private String recipeImage;
+    private List<MicroIngredientDTO> microIngredients;
+    private List<MacroIngredientDTO> macroIngredients;
 
     /*
     * id: 1
@@ -21,9 +22,11 @@ public class RecipeDTO extends BaseDTO {
     * allergens: Wheat, Gluten
     * dietary_suitability: Halal, Kosher
     * */
-    public RecipeDTO(int id, String name, String cookingInstructions, List<String> allergens, List<String> dietarySuitability, String recipeImage){
+    public RecipeDTO(int id, String name, String cookingInstructions, String recipeImage, List<DietDTO> dietarySuitability, List<AllergenDTO> allergens, List<MacroIngredientDTO> macroIngredients, List<MicroIngredientDTO> microIngredients){
         super(id, name);
         this.cookingInstructions = cookingInstructions;
+        this.microIngredients = microIngredients;
+        this.macroIngredients = macroIngredients;
         this.allergens = allergens;
         this.dietarySuitability = dietarySuitability;
         this.recipeImage = recipeImage;
@@ -37,27 +40,35 @@ public class RecipeDTO extends BaseDTO {
         return this.cookingInstructions;
     }
 
-    public void setIngredients(List<String> newIngredients) {
-        this.ingredients = newIngredients;
+    public void setMicroIngredients(List<MicroIngredientDTO> newMicroIngredients) {
+        this.microIngredients = newMicroIngredients;
     }
 
-    public List<String> getIngredients() {
-        return this.ingredients;
+    public List<MicroIngredientDTO> getMicroIngredients() {
+        return this.microIngredients;
     }
 
-    public void setAllergens(List<String> newAllergens) {
+    public void setMacroIngredients(List<MacroIngredientDTO> newMacroIngredients) {
+        this.macroIngredients = newMacroIngredients;
+    }
+
+    public List<MacroIngredientDTO> getMacroIngredients() {
+        return this.macroIngredients;
+    }
+
+    public void setAllergens(List<AllergenDTO> newAllergens) {
         this.allergens = newAllergens;
     }
 
-    public List<String> getAllergens() {
+    public List<AllergenDTO> getAllergens() {
         return this.allergens;
     }
 
-    public List<String> getDietarySuitability() {
+    public List<DietDTO> getDietarySuitability() {
         return this.dietarySuitability;
     }
 
-    public void setDietarySuitability(List<String> newDietarySuitability) {
+    public void setDietarySuitability(List<DietDTO> newDietarySuitability) {
         this.dietarySuitability = newDietarySuitability;
     }
 
@@ -68,5 +79,6 @@ public class RecipeDTO extends BaseDTO {
     public String getRecipeImage() {
         return this.recipeImage;
     }
+
 
 }
