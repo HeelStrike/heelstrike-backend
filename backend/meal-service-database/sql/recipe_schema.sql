@@ -12,8 +12,6 @@ CREATE TABLE IF NOT EXISTS allergen (
 -- ALTER TABLE allergen ADD CONSTRAINT unique_name_category UNIQUE (allergen_name);
 
 
-
-
 CREATE TABLE IF NOT EXISTS macro_ingredient (
     id SERIAL PRIMARY KEY,
     macro_ingredient_name VARCHAR(64),
