@@ -1,6 +1,7 @@
 package com.superlapp.meal.domain.entity;
 
 import com.superlapp.core.BaseEntity;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;

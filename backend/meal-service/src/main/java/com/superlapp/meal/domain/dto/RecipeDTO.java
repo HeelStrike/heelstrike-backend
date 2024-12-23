@@ -10,7 +10,7 @@ public class RecipeDTO extends BaseDTO {
     private String cookingInstructions;
     private List<AllergenDTO> allergens = new ArrayList<>();
     private List<DietDTO> dietarySuitability = new ArrayList<>();
-    private String recipeImage;
+    private RecipeImageDTO recipeImage;
     private List<MicroIngredientDTO> microIngredients;
     private List<MacroIngredientDTO> macroIngredients;
 
@@ -22,7 +22,7 @@ public class RecipeDTO extends BaseDTO {
     * allergens: Wheat, Gluten
     * dietary_suitability: Halal, Kosher
     * */
-    public RecipeDTO(int id, String name, String cookingInstructions, String recipeImage, List<DietDTO> dietarySuitability, List<AllergenDTO> allergens, List<MacroIngredientDTO> macroIngredients, List<MicroIngredientDTO> microIngredients){
+    public RecipeDTO(int id, String name, String cookingInstructions, RecipeImageDTO recipeImage, List<DietDTO> dietarySuitability, List<AllergenDTO> allergens, List<MacroIngredientDTO> macroIngredients, List<MicroIngredientDTO> microIngredients){
         super(id, name);
         this.cookingInstructions = cookingInstructions;
         this.microIngredients = microIngredients;
@@ -72,11 +72,11 @@ public class RecipeDTO extends BaseDTO {
         this.dietarySuitability = newDietarySuitability;
     }
 
-    public void setRecipeImage(String newRecipeImage) {
+    public void setRecipeImage(RecipeImageDTO newRecipeImage) {
         this.recipeImage = newRecipeImage;
     }
 
-    public String getRecipeImage() {
+    public RecipeImageDTO getRecipeImage() {
         return this.recipeImage;
     }
 

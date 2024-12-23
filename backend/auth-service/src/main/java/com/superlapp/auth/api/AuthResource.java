@@ -9,6 +9,7 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Path("/token")
@@ -21,7 +22,7 @@ public class AuthResource {
     @Produces(MediaType.TEXT_PLAIN)
     public Response giveToken(@QueryParam("userId") UUID userId,
                               @QueryParam("username") String username,
-                              @QueryParam("roles") List<String> roles) {
+                              @QueryParam("roles") Set<String> roles) {
 
         tokenService = new TokenService(userId, username, roles);
         String token = tokenService.generate();

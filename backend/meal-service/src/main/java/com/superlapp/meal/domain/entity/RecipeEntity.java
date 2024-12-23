@@ -48,7 +48,7 @@ public class RecipeEntity extends BaseEntity{
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "diet_id")
     )
-    private List<DietEntity> dietSuitability = new ArrayList<>();
+    private List<DietEntity> dietarySuitability = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -102,12 +102,24 @@ public class RecipeEntity extends BaseEntity{
         return this.macroIngredients;
     }
 
+    public void setMacroIngredients(List<MacroIngredientEntity> newMacroIngredients) {
+        this.macroIngredients = newMacroIngredients;
+    }
+
     public List<MicroIngredientEntity> getMicroIngredients() {
         return this.microIngredients;
     }
 
+    public void setMicroIngredients(List<MicroIngredientEntity> newMicroIngredients) {
+        this.microIngredients = newMicroIngredients;
+    }
+
+    public void setDietSuitability(List<DietEntity> newDietarySuitability) {
+        this.dietarySuitability = newDietarySuitability;
+    }
+
     public List<DietEntity> getDietSuitability() {
-        return this.dietSuitability;
+        return this.dietarySuitability;
     }
 
     public void setAllergens(List<AllergenEntity> newAllergens) {
@@ -122,8 +134,8 @@ public class RecipeEntity extends BaseEntity{
         this.recipeImage = recipeImage;
     }
 
-    public String getRecipeImage() {
-        return this.recipeImage.getImageUrl();
+    public RecipeImageEntity getRecipeImage() {
+        return this.recipeImage;
     }
 
 

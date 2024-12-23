@@ -9,11 +9,17 @@ repositories {
 }
 
 dependencies {
+    implementation 'io.quarkus:quarkus-jdbc-postgresql'
+    implementation 'com.mysql:mysql-connector-j:9.1.0'
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
     implementation 'io.quarkus:quarkus-arc'
     implementation 'io.quarkus:quarkus-rest'
+
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
+
+    implementation project(':superlapp-core')
+
 }
 
 group 'com.superlapp'

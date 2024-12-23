@@ -8,4 +8,14 @@ pluginManagement {
         id "${quarkusPluginId}" version "${quarkusPluginVersion}"
     }
 }
-rootProject.name = 'superlapp'
+
+rootProject.name = 'backend'
+
+include ':meal-service'
+project(':meal-service').projectDir = file('meal-service')
+
+include ':superlapp-core'
+project(':superlapp-core').projectDir = file('superlapp-core')
+
+
+

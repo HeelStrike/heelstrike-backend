@@ -9,6 +9,8 @@ repositories {
 }
 
 dependencies {
+    implementation 'io.quarkus:quarkus-jdbc-postgresql'
+    implementation 'org.postgresql:postgresql:42.7.4'
     // Enforce Quarkus BOM for consistent dependency versions
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
     implementation 'io.quarkus:quarkus-arc'
@@ -19,7 +21,8 @@ dependencies {
     implementation 'io.quarkus:quarkus-rest-jackson'
 
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
-    implementation 'mysql:mysql-connector-java:8.0.33'
+
+    implementation 'io.quarkus:quarkus-jdbc-postgresql'
     implementation 'io.quarkus:quarkus-jdbc-h2'
     implementation 'org.jetbrains:annotations:24.0.0'
     // https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api
@@ -31,6 +34,7 @@ dependencies {
 
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
+
 }
 
 group 'com.superlapp'

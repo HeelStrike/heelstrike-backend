@@ -25,7 +25,7 @@ public abstract class BaseRepository<T> {
     public BaseRepository(){
     }
 
-    protected T saveEntity(T entity) {
+    public T saveEntity(T entity) {
         entityManager.persist(entity);
         return entity;
     }
@@ -38,7 +38,7 @@ public abstract class BaseRepository<T> {
         return entityManager.find(entityClass, id);
     }
 
-    protected List<T> findAllEntities(Class<T> entityClass) {
+    public List<T> findAllEntities(Class<T> entityClass) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
         Root<T> root = criteriaQuery.from(entityClass);
@@ -64,7 +64,7 @@ public abstract class BaseRepository<T> {
         }
     }
 
-    protected Optional<List<T>> findEntity(Class<T> entityClass, Map<String, Object> filters) {
+    public Optional<List<T>> findEntity(Class<T> entityClass, Map<String, Object> filters) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<T> query = criteriaBuilder.createQuery(entityClass);
         Root<T> root = query.from(entityClass);
@@ -110,11 +110,5 @@ public abstract class BaseRepository<T> {
 
         return entityManager.createQuery(criteriaDelete).executeUpdate();
     }
-
-    public abstract JsonObject getAll();
-
-    public abstract JsonObject getById(int id);
-
-    public abstract JsonObject getByName(String name);
 }
 

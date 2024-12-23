@@ -24,9 +24,9 @@ public class TokenService {
 
     private UUID userId;
     private String username;
-    private List<String> roles;
+    private Set<String> roles;
 
-    public TokenService(UUID userId, String username, List<String> roles) {
+    public TokenService(UUID userId, String username, Set<String> roles) {
         this.userId = userId;
         this.username = username;
         this.roles = roles;
