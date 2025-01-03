@@ -9,3 +9,6 @@ pluginManagement {
     }
 }
 rootProject.name = 'auth-service'
+
+include ':superlapp-core'
+project(':superlapp-core').projectDir = file("../superlapp-core")
