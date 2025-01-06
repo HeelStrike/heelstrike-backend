@@ -17,7 +17,6 @@ dependencies {
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
     implementation 'io.quarkus:quarkus-rest'
     implementation 'io.quarkus:quarkus-rest-jackson'
-
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
     implementation 'mysql:mysql-connector-java:8.0.33'
     implementation 'io.quarkus:quarkus-jdbc-h2'
@@ -27,10 +26,9 @@ dependencies {
     // https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api
     implementation 'jakarta.persistence:jakarta.persistence-api:3.2.0'
     implementation 'io.quarkus:quarkus-jdbc-postgresql'
-
     implementation 'org.postgresql:postgresql:42.7.4'
-
     implementation 'io.quarkus:quarkus-smallrye-jwt'
+    implementation 'de.mkammerer:argon2-jvm:2.11'
 
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
