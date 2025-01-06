@@ -13,7 +13,8 @@ import jakarta.json.JsonObject;
 import java.util.List;
 
 @ApplicationScoped
-public class RecipeRepository extends BaseRepository<RecipeEntity> {
+public class
+RecipeRepository extends BaseRepository<RecipeEntity> {
 
 
 }

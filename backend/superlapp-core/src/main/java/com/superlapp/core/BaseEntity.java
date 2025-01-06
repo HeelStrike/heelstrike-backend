@@ -2,6 +2,13 @@ package com.superlapp.core;
 
 import jakarta.persistence.*;
 
+/**
+ * TODO: Refactor getId, setId, getName, setName methods into non-abstract methods.
+ * Currently, getId(), setId(), getName() etc... methods are abstract.
+ * naturally, this causes issues when, for example, UserEntity class in auth-service needs
+ * to return an id with the type of UUID, this breaks. Either use generics or just @MappedSuperClass
+ * annotation to fix this.
+ * */
 @MappedSuperclass
 public abstract class BaseEntity {
 

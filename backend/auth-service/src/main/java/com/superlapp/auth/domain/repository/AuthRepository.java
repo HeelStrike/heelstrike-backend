@@ -1,4 +1,7 @@
 package com.superlapp.auth.domain.repository;
 
-public class AuthRepository {
+import com.superlapp.auth.domain.entity.UserEntity;
+import com.superlapp.core.BaseRepository;
+
+public class AuthRepository extends BaseRepository<UserEntity> {
 }
