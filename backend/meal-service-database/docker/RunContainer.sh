@@ -1,0 +1,2 @@
+#!/usr/bin/bash
+docker start c60aa9ca32baf0919052920ab27751afd3053432d97ec7e274c99de5d72dbdd4

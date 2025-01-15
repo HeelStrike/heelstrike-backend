@@ -2,8 +2,8 @@ FROM postgres:17
 LABEL authors="heelstrike"
 
 # Set environment variables for database initialization
-ENV POSTGRES_DB=meal_service_data
-ENV POSTGRES_USER=mealsvc
+ENV POSTGRES_DB=auth_service_data
+ENV POSTGRES_USER=authsvc
 ENV POSTGRES_PASSWORD=secretpw
 
 # Copy SQL schema to the initialization directory
