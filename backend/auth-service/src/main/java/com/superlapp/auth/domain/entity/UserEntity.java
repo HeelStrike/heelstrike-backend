@@ -1,38 +1,34 @@
 package com.superlapp.auth.domain.entity;
 
-import com.superlapp.core.BaseEntity;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.json.Json;
+import com.superlapp.auth.domain.entity.RoleEntity;
+
 import jakarta.persistence.*;
-import org.hibernate.annotations.Fetch;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "user")
-public class UserEntity extends BaseEntity {
+@Table(name = "users")
+public class UserEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(name = "user_uuid", updatable = false, nullable = false)
     private UUID uuid;
 
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @PrePersist
+    protected void generateUuid() {
+        if (this.uuid == null) {
+            this.uuid = UUID.randomUUID();
+        }
+    }
 
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "username", nullable = false, unique = true)
     private String name;
-
-    //@Column(name = "firstname")
-    //private String firstname;
-
-    //@Column(name = "middlenames")
-    //private Json middlenames;
-
-    // @Column(name = "surname")
-    // private String surname;
 
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
@@ -40,11 +36,27 @@ public class UserEntity extends BaseEntity {
     //TODO: Fin this:
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "user_role",
+            name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
     private List<RoleEntity> userRoles = new ArrayList<>();
+
+    public long getId() {
+        return this.id;
+    }
+
+    public void setId(long newId) {
+        this.id = newId;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String newName) {
+        this.name = newName;
+    }
 
     public UUID getUuid() {
         return this.uuid;
@@ -52,26 +64,6 @@ public class UserEntity extends BaseEntity {
 
     public void getUuid(UUID newUuid) {
         this.uuid = newUuid;
-    }
-
-    @Override
-    public int getId() {
-        return this.id;
-    }
-
-    @Override
-    public void setId(int newId) {
-        this.id = newId;
-    }
-
-    @Override
-    public String getName() {
-        return this.name;
-    }
-
-    @Override
-    public void setName(String newName) {
-        this.name = newName;
     }
 
     public String getPasswordHash() {
