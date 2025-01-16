@@ -25,7 +25,7 @@ class AuthResourceTest {
     void testJWTIssue() {
         String jwt = given()
                 .queryParam("userId", UUID.randomUUID())
-                .queryParam("usernamw", "testUser")
+                .queryParam("username", "testUser")
                 .queryParam("roles", "admin,user")
                 .when()
                 .post("/token")
