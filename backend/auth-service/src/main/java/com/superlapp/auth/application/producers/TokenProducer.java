@@ -16,25 +16,15 @@ import java.util.UUID;
 @ApplicationScoped
 public class TokenProducer {
 
-    @Inject
-    UserEntity userEntity;
-
-    public TokenProducer(UserEntity userEntity) {
-        this.userEntity = userEntity;
-    }
-
-    @Produces
-    public UUID produceUserId() {
+    public UUID produceUserId(UserEntity userEntity) {
         return userEntity.getUuid();
     }
 
-    @Produces
-    public String produceUsername() {
+    public String produceUsername(UserEntity userEntity) {
         return userEntity.getName();
     }
 
-    @Produces
-    public Set<String> produceRoles() {
+    public Set<String> produceRoles(UserEntity userEntity) {
         Set<String> roleSet = new java.util.HashSet<>(Collections.emptySet());
         List<RoleEntity> roleList = userEntity.getRoles();
 
