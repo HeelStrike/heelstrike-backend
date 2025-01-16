@@ -1,31 +1,37 @@
 package com.superlapp.auth.api;
 
 import com.superlapp.auth.application.service.TokenService;
+import com.superlapp.auth.domain.dto.UserDTO;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-@Path("/token")
+@Path("/auth")
 public class AuthResource {
 
     @Inject
     TokenService tokenService;
 
+    @Inject
+    UserDTO userDTO;
+
     @POST
+    @Path("/token")
+    @Consumes("application/json")
     @Produces(MediaType.TEXT_PLAIN)
-    public Response giveToken(@QueryParam("userId") UUID userId,
+    public Response giveToken(@QueryParam("userUuid") UUID userUuid,
                               @QueryParam("username") String username,
                               @QueryParam("roles") Set<String> roles) {
 
-        tokenService = new TokenService(userId, username, roles);
-        String token = tokenService.generate();
+        userDTO.setUuid(userUuid);
+        userDTO.setName(username);
+        userDTO.setRoles(roles);
+
+        String token = tokenService.generate(userDTO);
 
         return Response.ok(token).build();
     }
