@@ -1,10 +1,12 @@
 package com.superlapp.auth.application.validation;
 
-import com.superlapp.auth.domain.dto.UserDTO;
+import com.superlapp.auth.domain.entity.UserEntity;
 import com.superlapp.auth.domain.repository.UserRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -17,14 +19,7 @@ public class AuthValidator {
     @Inject
     UserRepository userRepository;
 
-    public AuthValidator(UserDTO userDTO) {
-        this.userUuid = userDTO.getUuid();
-        this.username = userDTO.getName();
-        this.roles = userDTO.getRoles();
+    public boolean validateUser(String username) {
+        return userRepository.findByUsername(username).isPresent();
     }
-
-    public boolean validateUser() {
-        return userUuid == userRepository.findUserEntity(userUuid).getUuid();
-    }
-
 }
