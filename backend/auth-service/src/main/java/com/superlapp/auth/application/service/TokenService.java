@@ -2,12 +2,14 @@ package com.superlapp.auth.application.service;
 
 import com.superlapp.auth.application.producers.TokenProducer;
 import com.superlapp.auth.application.validation.AuthValidator;
+import com.superlapp.auth.domain.entity.RoleEntity;
 import com.superlapp.auth.domain.repository.UserRepository;
 
 import com.superlapp.auth.domain.dto.UserDTO;
 import com.superlapp.auth.domain.entity.UserEntity;
 
 
+import java.util.Optional;
 import java.util.UUID;
 
 import io.smallrye.jwt.build.Jwt;
@@ -22,7 +24,7 @@ public class TokenService {
 
     private UUID userUuid;
     private String username;
-    private Set<String> roles;
+    private RoleEntity roleEntity;
 
     @Inject
     UserRepository userRepository;
@@ -39,30 +41,26 @@ public class TokenService {
     public TokenService() {}
 
     public String generate(UserDTO userDTO) {
-        if (authValidator.validateUser()) {
-            try {
+        try {
+            Optional<UserEntity> userEntityOptional = userRepository.findByUsername(userDTO.getUsername());
 
-                UserEntity userEntity = userRepository.findUserEntity(
-                        userDTO.getUuid()
-                );
-
-                userUuid = tokenProducer.produceUserId(userEntity);
-                username = tokenProducer.produceUsername(userEntity);
-                roles = tokenProducer.produceRoles(userEntity);
-
-                return Jwt
-                        .issuer("https://heelstrike.app")
-                        .subject(username)
-                        .groups(roles)
-                        .expiresIn(Duration.ofHours(2))
-                        .sign();
-
-            } catch (Exception e) {
-                throw new RuntimeException("Failed to generate JWT, " + e);
+            if (userEntityOptional.isEmpty()) {
+                return "User not found, unable to produce JWT.";
             }
+
+            userUuid = tokenProducer.produceUserId(userEntityOptional);
+            username = tokenProducer.produceUsername(userEntityOptional);
+            roleEntity = tokenProducer.produceRoles(userEntityOptional);
+
+            return Jwt
+                    .issuer("https://heelstrike.app")
+                    .subject(username)
+                    .groups(roleEntity.getName())
+                    .expiresIn(Duration.ofHours(2))
+                    .sign();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to generate JWT, " + e.getMessage(), e);
         }
-
-        return ("User not found, unable to produce JWT.");
     }
-
 }
