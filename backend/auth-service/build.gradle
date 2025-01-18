@@ -29,6 +29,7 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.7.4'
     implementation 'io.quarkus:quarkus-smallrye-jwt'
     implementation 'de.mkammerer:argon2-jvm:2.11'
+    implementation 'io.quarkus:quarkus-hibernate-orm-panache'
 
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
