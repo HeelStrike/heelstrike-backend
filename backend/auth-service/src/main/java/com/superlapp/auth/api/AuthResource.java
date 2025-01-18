@@ -1,6 +1,7 @@
 package com.superlapp.auth.api;
 
 import com.superlapp.auth.application.service.TokenService;
+import com.superlapp.auth.application.validation.AuthValidator;
 import com.superlapp.auth.domain.dto.UserDTO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -19,17 +20,22 @@ public class AuthResource {
     @Inject
     UserDTO userDTO;
 
+    @Inject
+    AuthValidator authValidator;
+
     @POST
     @Path("/token")
     @Consumes("application/json")
     @Produces(MediaType.TEXT_PLAIN)
-    public Response giveToken(@QueryParam("userUuid") UUID userUuid,
-                              @QueryParam("username") String username,
-                              @QueryParam("roles") Set<String> roles) {
+    public Response giveToken(@QueryParam("username") String username) {
 
-        userDTO.setUuid(userUuid);
-        userDTO.setName(username);
-        userDTO.setRoles(roles);
+        if (!authValidator.validateUser(username)) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("Invalid username, user: " + username + ", could not be found")
+                    .build();
+        }
+
+        userDTO.setUsername(username);
 
         String token = tokenService.generate(userDTO);
 
