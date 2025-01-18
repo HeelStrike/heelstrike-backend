@@ -72,4 +72,12 @@ public class UserEntity {
     public int getMobile() {
         return this.mobile;
     }
+
+    public void setRole(RoleEntity newRoleEntity) {
+        this.role = newRoleEntity;
+    }
+
+    public RoleEntity getRole() {
+        return this.role;
+    }
 }
