@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "role_permissions")
+@Table(name = "app_roles")
 public class RoleEntity {
 
     @Id
@@ -15,11 +15,11 @@ public class RoleEntity {
     @Column(name = "id", updatable = false, nullable = false)
     private long id;
 
-    @Column(name = "role_name")
+    @Column(name = "name")
     private String name;
 
-    @ManyToMany(mappedBy = "userRoles")
-    private List<UserEntity> users = new ArrayList<>();
+    //@OneToMany(mappedBy = "role")
+    //private List<UserEntity> users = new ArrayList<>();
 
     public long getId() {
         return this.id;
