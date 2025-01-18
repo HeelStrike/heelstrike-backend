@@ -11,32 +11,68 @@ public class UserDTO {
 
     private UUID uuid;
     private String username;
+    private String passwordHash;
+    private String primaryEmail;
+    private String secondaryEmail;
+    private int mobile;
     private Set<String> roles;
 
     public UserDTO() {}
-
-    public UUID getUuid() {
-        return this.uuid;
-    }
 
     public void setUuid(UUID newUuid) {
         this.uuid = newUuid;
     }
 
-    public String getName() {
-        return this.username;
+    public UUID getUuid() {
+        return this.uuid;
     }
 
-    public void setName(String newUsername) {
+    public void setUsername(String newUsername) {
         this.username = newUsername;
     }
 
-    public Set<String> getRoles() {
-        return this.roles;
+    public String getUsername() {
+        return this.username;
     }
 
-    public void setRoles(Set<String> newRoles) {
+    public void setPasswordHash(String newPasswordHash) {
+        this.passwordHash = newPasswordHash;
+    }
+
+    public String getPasswordHash() {
+        return this.passwordHash;
+    }
+
+    public void setPrimaryEmail(String newPrimaryEmail) {
+        this.primaryEmail = newPrimaryEmail;
+    }
+
+    public String getPrimaryEmail() {
+        return this.primaryEmail;
+    }
+
+    public void setSecondaryEmail(String newSecondaryEmail) {
+
+    }
+
+    public String getSecondaryEmail() {
+        return this.secondaryEmail;
+    }
+
+    public void setMobile(int newMobile) {
+        this.mobile = newMobile;
+    }
+
+    public int getMobile() {
+        return this.mobile;
+    }
+
+    public void setRole(Set<String> newRoles) {
         this.roles = newRoles;
+    }
+
+    public Set<String> getRole() {
+        return this.roles;
     }
 
 }
