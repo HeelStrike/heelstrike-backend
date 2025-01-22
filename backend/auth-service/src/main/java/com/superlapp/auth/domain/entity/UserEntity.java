@@ -27,7 +27,7 @@ public class UserEntity {
     private String secondaryEmail;
 
     @Column (name = "mobile")
-    private int mobile;
+    private long mobile;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
@@ -49,6 +49,14 @@ public class UserEntity {
         return this.username;
     }
 
+    public void setPasswordHash(String newPasswordHash) {
+        this.passwordHash = newPasswordHash;
+    }
+
+    public String getPasswordHash() {
+        return this.passwordHash;
+    }
+
     public void setPrimaryEmail(String newPrimaryEmail) {
         this.primaryEmail = newPrimaryEmail;
     }
@@ -65,11 +73,11 @@ public class UserEntity {
         return this.secondaryEmail;
     }
 
-    public void setMobile(int newMobile) {
+    public void setMobile(long newMobile) {
         this.mobile = newMobile;
     }
 
-    public int getMobile() {
+    public long getMobile() {
         return this.mobile;
     }
 
