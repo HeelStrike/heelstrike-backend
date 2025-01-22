@@ -4,24 +4,18 @@ CREATE DATABASE auth_db;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TABLE IF NOT EXISTS role_permissions (
+CREATE TABLE IF NOT EXISTS app_roles (
     id BIGSERIAL PRIMARY KEY,
-    role_name VARCHAR(10)
+    name VARCHAR(10) NOT NULL UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS users (
-    id BIGSERIAL PRIMARY KEY,
-    user_uuid UUID DEFAULT uuid_generate_v4() UNIQUE,
-    username VARCHAR(20) NOT NULL UNIQUE,
+CREATE TABLE IF NOT EXISTS app_users (
+    uuid UUID DEFAULT uuid_generate_v4() UNIQUE PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
-    role_permissions_id BIGINT,
-    FOREIGN KEY (role_permissions_id) REFERENCES role_permissions(id)
-);
-
-CREATE TABLE IF NOT EXISTS user_roles (
-    user_id BIGINT,
+    primary_email VARCHAR (58) NOT NULL,
+    secondary_email VARCHAR (58),
+    mobile BIGINT, -- TODO: Change to BIGINT for mobile numbers (int out of range)
     role_id BIGINT,
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (role_id) REFERENCES role_permissions(id),
-    PRIMARY KEY (user_id, role_id)
+    FOREIGN KEY (role_id) REFERENCES app_roles(id)
 );
