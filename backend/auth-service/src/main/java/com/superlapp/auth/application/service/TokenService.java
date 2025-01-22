@@ -9,6 +9,7 @@ import com.superlapp.auth.domain.dto.UserDTO;
 import com.superlapp.auth.domain.entity.UserEntity;
 
 
+import java.security.InvalidParameterException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,6 +22,9 @@ import java.util.Set;
 
 @ApplicationScoped
 public class TokenService {
+
+    @Inject
+    PasswordService passwordService;
 
     private UUID userUuid;
     private String username;
@@ -48,9 +52,20 @@ public class TokenService {
                 return "User not found, unable to produce JWT.";
             }
 
-            userUuid = tokenProducer.produceUserId(userEntityOptional);
-            username = tokenProducer.produceUsername(userEntityOptional);
-            roleEntity = tokenProducer.produceRoles(userEntityOptional);
+            try {
+                passwordService.verifyPassword(
+                        userDTO.getPasswordHash(),
+                        userEntityOptional.map(UserEntity::getPasswordHash)
+                                .orElseThrow(() -> new InvalidParameterException("Invalid password."))
+                );
+
+                userUuid = tokenProducer.produceUserId(userEntityOptional);
+                username = tokenProducer.produceUsername(userEntityOptional);
+                roleEntity = tokenProducer.produceRoles(userEntityOptional);
+
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to generate JWT due to invalid password, " + e.getMessage(), e);
+            }
 
             return Jwt
                     .issuer("https://heelstrike.app")
