@@ -1,6 +1,6 @@
 package com.superlapp.auth.domain.dto;
 
-import com.superlapp.core.BaseDTO;
+import com.superlapp.auth.domain.entity.RoleEntity;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.Set;
@@ -11,11 +11,13 @@ public class UserDTO {
 
     private UUID uuid;
     private String username;
+    // Plain Text Password:
+    private String password;
     private String passwordHash;
     private String primaryEmail;
     private String secondaryEmail;
-    private int mobile;
-    private Set<String> roles;
+    private long mobile;
+    private Long roleId;
 
     public UserDTO() {}
 
@@ -33,6 +35,14 @@ public class UserDTO {
 
     public String getUsername() {
         return this.username;
+    }
+
+    public void setPassword(String newPassword) {
+        this.password = newPassword;
+    }
+
+    public String getPassword() {
+        return this.password;
     }
 
     public void setPasswordHash(String newPasswordHash) {
@@ -59,20 +69,20 @@ public class UserDTO {
         return this.secondaryEmail;
     }
 
-    public void setMobile(int newMobile) {
+    public void setMobile(long newMobile) {
         this.mobile = newMobile;
     }
 
-    public int getMobile() {
+    public long getMobile() {
         return this.mobile;
     }
 
-    public void setRole(Set<String> newRoles) {
-        this.roles = newRoles;
+    public void setRoleId(Long newRoleId) {
+        this.roleId = newRoleId;
     }
 
-    public Set<String> getRole() {
-        return this.roles;
+    public Long getRoleId() {
+        return this.roleId;
     }
 
 }
