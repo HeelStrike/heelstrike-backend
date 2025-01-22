@@ -1,11 +1,13 @@
 package com.superlapp.auth.domain.repository;
 
+import com.superlapp.auth.domain.dto.UserDTO;
 import com.superlapp.auth.domain.entity.UserEntity;
 
 import com.superlapp.core.BaseRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.inject.Inject;
+import jakarta.validation.ConstraintViolationException;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,5 +24,33 @@ public class UserRepository implements PanacheRepositoryBase<UserEntity, UUID> {
 
     public Optional<UserEntity> findByUsername(String username) {
         return find("username", username).firstResultOptional();
+    }
+
+    public Optional<UserEntity> findByPrimaryEmail(String primaryEmail) {
+        return find("primary_email", primaryEmail).firstResultOptional(); //TODO: Change primaryEmail to UNIQUE in schema!
+    }
+
+    public Optional<UserEntity> findBySecondaryEmail(String secondaryEmail) {
+        return find("secondary_email", secondaryEmail).firstResultOptional();
+    }
+
+    public void persistUserEntity(UserEntity userEntity) {
+        try {
+            persistAndFlush(userEntity);
+
+            //TODO: Create custom  PersistenceException class that extends RuntimeException
+        } catch (jakarta.validation.ConstraintViolationException e) {
+            throw new jakarta.validation.ConstraintViolationException(
+                    "Could not persist user entity in database due to validation error: " + e.getMessage(),
+                    e.getConstraintViolations()
+            );
+
+        } catch (org.hibernate.exception.ConstraintViolationException e) {
+            throw new org.hibernate.exception.ConstraintViolationException(
+                    "Could not persist user entity in database due to database constraint violation: " + e.getMessage(),
+                    e.getSQLException(),
+                    e.getConstraintName()
+            );
+        }
     }
 }
