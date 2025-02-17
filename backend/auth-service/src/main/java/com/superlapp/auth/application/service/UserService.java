@@ -9,10 +9,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
-import javax.management.relation.Role;
-
 @ApplicationScoped
-public class UserCreationService {
+public class UserService {
 
     @Inject
     UserRepository userRepository;
@@ -23,25 +21,14 @@ public class UserCreationService {
     @Inject
     PasswordService passwordService;
 
-    public UserCreationService() {
+    public UserService() {
     }
 
     @Transactional
     public void createUser(UserDTO userDTO) {
         UserEntity userEntity = new UserEntity();
 
-        try {
-            String passwordHash = passwordService.hashPassword(userDTO.getPassword());
-
-            if (!passwordService.verifyPassword(passwordHash, userDTO.getPassword())) {
-                throw new RuntimeException("UserDTO supplied password and argon2 password hash do not match.");
-            }
-
-            userDTO.setPasswordHash(passwordHash);
-
-        } catch (Exception e) {
-            throw new RuntimeException("Unable to hash password, " + e.getMessage(), e);
-        }
+        setPassword(userDTO);
 
         userEntity.setUsername(userDTO.getUsername());
         userEntity.setPasswordHash(userDTO.getPasswordHash());
@@ -72,7 +59,66 @@ public class UserCreationService {
         }
     }
 
+    @Transactional
+    public void updateUser(UserDTO userDTO) {
+        // TODO: Implement, find UserEntity, set userEntity = userDTO, send success or error message.
+
+        UserEntity userEntity = userRepository.findByUuid(userDTO.getUuid())
+                .orElseThrow(() -> new RuntimeException("Cannot delete user, does not exist."));;
+
+        if (userDTO.getUsername() != null) {
+            userEntity.setUsername(userDTO.getUsername());
+        }
+
+        if (userDTO.getPassword() != null) {
+            setPassword(userDTO);
+        }
+
+        if (userDTO.getPrimaryEmail() != null) {
+            userEntity.setPrimaryEmail(userDTO.getPrimaryEmail());
+        }
+
+        if (userDTO.getSecondaryEmail() != null) {
+            userEntity.setSecondaryEmail(userDTO.getSecondaryEmail());
+        }
+
+        if (userDTO.getMobile() != -1) {
+            userEntity.setMobile(userDTO.getMobile());
+        }
+
+        userRepository.persistUserEntity(userEntity);
+
+    }
+
+    private void setPassword(UserDTO userDTO) {
+        try {
+            String passwordHash = passwordService.hashPassword(userDTO.getPassword());
+
+            if (!passwordService.verifyPassword(passwordHash, userDTO.getPassword())) {
+                throw new RuntimeException("UserDTO supplied password and argon2 password hash do not match.");
+            }
+
+            userDTO.setPasswordHash(passwordHash);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Unable to hash password, " + e.getMessage(), e);
+        }
+    }
+
+    @Transactional
     public void updateUserRole(UserDTO userDTO) {
         UserEntity userEntity = userRepository.findById(userDTO.getUuid());
+    }
+
+    @Transactional
+    public void deleteUser(UserDTO userDTO) {
+        UserEntity userEntity = userRepository.findByUsername(userDTO.getUsername())
+                .orElseThrow(() -> new RuntimeException("Cannot delete user, does not exist."));
+
+        try {
+            userRepository.delete(userEntity);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
