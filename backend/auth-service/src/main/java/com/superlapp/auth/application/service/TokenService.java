@@ -70,7 +70,7 @@ public class TokenService {
             return Jwt
                     .issuer("https://heelstrike.app")
                     .subject(username)
-                    .groups(roleEntity.getName())
+                    .claim("role", roleEntity.getName())
                     .expiresIn(Duration.ofHours(2))
                     .sign();
 
