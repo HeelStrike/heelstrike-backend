@@ -1,18 +1,18 @@
 package com.superlapp.auth.api;
 
 import com.superlapp.auth.application.service.TokenService;
-import com.superlapp.auth.application.service.UserCreationService;
+import com.superlapp.auth.application.service.UserService;
 import com.superlapp.auth.application.validation.AuthValidator;
 import com.superlapp.auth.domain.dto.UserDTO;
+import com.superlapp.auth.domain.repository.UserRepository;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import java.util.List;
-import java.util.Set;
+
 import java.util.UUID;
 
-@Path("/auth")
+@Path("/api/auth")
 public class AuthResource {
 
     @Inject
@@ -25,7 +25,10 @@ public class AuthResource {
     AuthValidator authValidator;
 
     @Inject
-    UserCreationService userCreationService;
+    UserService userService;
+
+    @Inject
+    UserRepository userRepository;
 
     @POST
     @Path("/token")
@@ -56,8 +59,7 @@ public class AuthResource {
     public Response createUser(@QueryParam("newUsername") String newUsername,
                                @QueryParam("newPassword") String newPassword,
                                @QueryParam("primaryEmail") String primaryEmail,
-                               @QueryParam("mobile") long mobile
-                               ) {
+                               @QueryParam("mobile") long mobile) {
 
         if (authValidator.validateUser(newUsername)) {
             return Response.status(Response.Status.CONFLICT)
@@ -71,8 +73,61 @@ public class AuthResource {
         userDTO.setMobile(mobile);
         //userDTO.setRole(1);
 
-        userCreationService.createUser(userDTO);
+        userService.createUser(userDTO);
 
         return Response.ok(userDTO).build();
+    }
+
+    @POST
+    @Path("/update-user")
+    @Consumes("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateUser(@QueryParam("uuid") UUID uuid,
+                               @QueryParam("newUsername") String newUsername,
+                               @QueryParam("newPassword") String newPassword,
+                               @QueryParam("newPrimaryEmail") String newPrimaryEmail,
+                               @QueryParam("newSecondaryEmail") String newSecondaryEmail,
+                               @QueryParam("newMobile") @DefaultValue("-1") long newMobile) {
+
+        userDTO.setUuid(uuid);
+        userDTO.setUsername(newUsername);
+        userDTO.setPassword(newPassword);
+        userDTO.setPrimaryEmail(newPrimaryEmail);
+        userDTO.setSecondaryEmail(newSecondaryEmail);
+        userDTO.setMobile(newMobile);
+
+        try {
+            userService.updateUser(userDTO);
+            return Response.ok()
+                    .entity("User details updated successfully.")
+                    .build();
+
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Could not update user, " + e)
+                    .build();
+        }
+    }
+
+
+    @POST
+    @Path("/delete-user")
+    @Consumes("application/json")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response deleteUser(@QueryParam("username") String username) {
+
+        userDTO.setUsername(username);
+
+        try {
+            userService.deleteUser(userDTO);
+
+            return Response.ok("User deleted successfully.").build();
+
+        } catch (Exception e) {
+
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Error occured while deleting user, " + e)
+                    .build();
+        }
     }
 }

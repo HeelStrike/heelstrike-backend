@@ -53,6 +53,7 @@ public class UserCreationService {
         }
 
         RoleEntity roleEntity;
+
         if (userDTO.getRoleId() != null) {
             roleEntity = roleRepository.findRoleById(userDTO.getRoleId())
                     .orElseThrow(() -> new RuntimeException("Role with ID " + userDTO.getRoleId() + " not found."));
