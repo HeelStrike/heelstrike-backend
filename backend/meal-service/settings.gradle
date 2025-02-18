@@ -10,6 +10,6 @@ pluginManagement {
 }
 
 rootProject.name = 'meal-service'
-include ':superlapp-core'
-project(':superlapp-core').projectDir = file("../superlapp-core")
+include ':heelstrike-core'
+project(':heelstrike-core').projectDir = file("../heelstrike-core")
 

@@ -14,8 +14,8 @@ rootProject.name = 'backend'
 include ':meal-service'
 project(':meal-service').projectDir = file('meal-service')
 
-include ':superlapp-core'
-project(':superlapp-core').projectDir = file('superlapp-core')
+include ':heelstrike-core'
+project(':heelstrike-core').projectDir = file('heelstrike-core')
 
 include ':auth-service'
 project(':auth-service').projectDir = file("../auth-service")

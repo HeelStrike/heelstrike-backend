@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    implementation project(':superlapp-core')
+    implementation project(':heelstrike-core')
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
     implementation 'io.quarkus:quarkus-arc'
     implementation 'io.quarkus:quarkus-hibernate-validator'
@@ -38,7 +38,7 @@ dependencies {
 
 }
 
-group 'com.superlapp'
+group 'com.heelstrike'
 version '1.0-SNAPSHOT'
 
 java {
