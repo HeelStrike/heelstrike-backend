@@ -4,7 +4,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.UUID;
 
-@ApplicationScoped
 public class UserDTO {
 
     private UUID uuid;
@@ -19,68 +18,67 @@ public class UserDTO {
 
     public UserDTO() {}
 
-    public void setUuid(UUID newUuid) {
-        this.uuid = newUuid;
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public UUID getUuid() {
         return this.uuid;
     }
 
-    public void setUsername(String newUsername) {
-        this.username = newUsername;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getUsername() {
         return this.username;
     }
 
-    public void setPassword(String newPassword) {
-        this.password = newPassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getPassword() {
         return this.password;
     }
 
-    public void setPasswordHash(String newPasswordHash) {
-        this.passwordHash = newPasswordHash;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     public String getPasswordHash() {
         return this.passwordHash;
     }
 
-    public void setPrimaryEmail(String newPrimaryEmail) {
-        this.primaryEmail = newPrimaryEmail;
+    public void setPrimaryEmail(String primaryEmail) {
+        this.primaryEmail = primaryEmail;
     }
 
     public String getPrimaryEmail() {
         return this.primaryEmail;
     }
 
-    public void setSecondaryEmail(String newSecondaryEmail) {
-
+    public void setSecondaryEmail(String secondaryEmail) {
+        this.secondaryEmail = secondaryEmail;
     }
 
     public String getSecondaryEmail() {
         return this.secondaryEmail;
     }
 
-    public void setMobile(long newMobile) {
-        this.mobile = newMobile;
+    public void setMobile(long mobile) {
+        this.mobile = mobile;
     }
 
     public long getMobile() {
         return this.mobile;
     }
 
-    public void setRoleId(Long newRoleId) {
-        this.roleId = newRoleId;
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 
     public Long getRoleId() {
         return this.roleId;
     }
-
 }
