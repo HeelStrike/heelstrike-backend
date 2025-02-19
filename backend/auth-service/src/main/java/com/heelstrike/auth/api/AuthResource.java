@@ -5,6 +5,7 @@ import com.heelstrike.auth.application.service.UserService;
 import com.heelstrike.auth.application.validation.AuthValidator;
 import com.heelstrike.auth.domain.dto.UserDTO;
 import com.heelstrike.auth.domain.repository.UserRepository;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -13,13 +14,13 @@ import jakarta.ws.rs.core.Response;
 import java.util.UUID;
 
 @Path("/api/auth")
+@ApplicationScoped
 public class AuthResource {
+
+    UserDTO userDTO;
 
     @Inject
     TokenService tokenService;
-
-    @Inject
-    UserDTO userDTO;
 
     @Inject
     AuthValidator authValidator;
@@ -30,21 +31,27 @@ public class AuthResource {
     @Inject
     UserRepository userRepository;
 
-    @POST
-    @Path("/token")
-    @Consumes("application/json")
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response giveToken(@QueryParam("username") String username,
-                              @QueryParam("password") String password) {
+    public AuthResource() {
+        UserDTO userDTO = new UserDTO();
+    }
 
-        if (!authValidator.validateUser(username)) {
+    @POST
+    @Path("/login")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response giveToken(UserDTO userDTO) {
+
+        if (!authValidator.validateUser(userDTO.getUsername())) {
             return Response.status(Response.Status.NOT_FOUND)
-                    .entity("Invalid username, user: " + username + ", could not be found")
+                    .entity("Invalid username, user: " + userDTO.getUsername() + ", could not be found")
                     .build();
         }
 
-        userDTO.setUsername(username);
-        userDTO.setPassword(password);
+        if (!authValidator.validatePassword(userDTO.getUsername(), userDTO.getPassword())) {
+            return Response.status(Response.Status.FORBIDDEN)
+                    .entity("Invalid password, user: " + userDTO.getUsername())
+                    .build();
+        }
 
         String token = tokenService.generate(userDTO);
 
@@ -54,24 +61,15 @@ public class AuthResource {
     //TODO: Add query field for setting RBAC permissions.
     @POST
     @Path("/create-user")
-    @Consumes("application/json")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
-    public Response createUser(@QueryParam("newUsername") String newUsername,
-                               @QueryParam("newPassword") String newPassword,
-                               @QueryParam("primaryEmail") String primaryEmail,
-                               @QueryParam("mobile") long mobile) {
+    public Response createUser(UserDTO userDTO) {
 
-        if (authValidator.validateUser(newUsername)) {
+        if (authValidator.validateUser(userDTO.getUsername())) {
             return Response.status(Response.Status.CONFLICT)
-                    .entity("User: " + newUsername + ", already exists!")
+                    .entity("User: " + userDTO.getUsername() + ", already exists!")
                     .build();
         }
-
-        userDTO.setUsername(newUsername);
-        userDTO.setPassword(newPassword);
-        userDTO.setPrimaryEmail(primaryEmail);
-        userDTO.setMobile(mobile);
-        //userDTO.setRole(1);
 
         userService.createUser(userDTO);
 
@@ -80,7 +78,7 @@ public class AuthResource {
 
     @POST
     @Path("/update-user")
-    @Consumes("application/json")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateUser(@QueryParam("uuid") UUID uuid,
                                @QueryParam("newUsername") String newUsername,
@@ -112,7 +110,7 @@ public class AuthResource {
 
     @POST
     @Path("/delete-user")
-    @Consumes("application/json")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public Response deleteUser(@QueryParam("username") String username) {
 
@@ -126,7 +124,7 @@ public class AuthResource {
         } catch (Exception e) {
 
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("Error occured while deleting user, " + e)
+                    .entity("Error occurred while deleting user, " + e)
                     .build();
         }
     }
