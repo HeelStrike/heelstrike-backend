@@ -62,38 +62,25 @@ public class AuthResource {
     @POST
     @Path("/create-user")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response createUser(UserDTO userDTO) {
 
         if (authValidator.validateUser(userDTO.getUsername())) {
             return Response.status(Response.Status.CONFLICT)
                     .entity("User: " + userDTO.getUsername() + ", already exists!")
                     .build();
+        } else {
+            userService.createUser(userDTO);
         }
 
-        userService.createUser(userDTO);
-
-        return Response.ok(userDTO).build();
+        return Response.status(Response.Status.CREATED).entity("User created successfully.").build();
     }
 
     @POST
     @Path("/update-user")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateUser(@QueryParam("uuid") UUID uuid,
-                               @QueryParam("newUsername") String newUsername,
-                               @QueryParam("newPassword") String newPassword,
-                               @QueryParam("newPrimaryEmail") String newPrimaryEmail,
-                               @QueryParam("newSecondaryEmail") String newSecondaryEmail,
-                               @QueryParam("newMobile") @DefaultValue("-1") long newMobile) {
-
-        userDTO.setUuid(uuid);
-        userDTO.setUsername(newUsername);
-        userDTO.setPassword(newPassword);
-        userDTO.setPrimaryEmail(newPrimaryEmail);
-        userDTO.setSecondaryEmail(newSecondaryEmail);
-        userDTO.setMobile(newMobile);
-
+    public Response updateUser(UserDTO userDTO) {
         try {
             userService.updateUser(userDTO);
             return Response.ok()
@@ -106,7 +93,6 @@ public class AuthResource {
                     .build();
         }
     }
-
 
     @POST
     @Path("/delete-user")
@@ -128,4 +114,24 @@ public class AuthResource {
                     .build();
         }
     }
+
+    @POST
+    @Path("/update-user-role")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateUserRole(UserDTO userDTO) {
+        try {
+            userService.updateUserRole(userDTO);
+            return Response.ok()
+                    .entity("User details updated successfully.")
+                    .build();
+
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Could not update user, " + e)
+                    .build();
+        }
+    }
+
+
 }
