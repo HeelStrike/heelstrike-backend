@@ -38,9 +38,6 @@ public class TokenService {
     @Inject
     TokenProducer tokenProducer;
 
-    @Inject
-    UserDTO userDTO;
-
     public TokenService() {}
 
     public String generate(UserDTO userDTO) {
