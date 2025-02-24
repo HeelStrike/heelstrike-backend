@@ -5,6 +5,7 @@ import com.heelstrike.auth.domain.entity.RoleEntity;
 import com.heelstrike.auth.domain.entity.UserEntity;
 import com.heelstrike.auth.domain.repository.RoleRepository;
 import com.heelstrike.auth.domain.repository.UserRepository;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -82,12 +83,26 @@ public class UserService {
             userEntity.setSecondaryEmail(userDTO.getSecondaryEmail());
         }
 
+        //TODO: Refactor this so mobile number is a String. No idea why I thought long would be a good idea.
         if (userDTO.getMobile() != -1) {
             userEntity.setMobile(userDTO.getMobile());
         }
 
         userRepository.persistUserEntity(userEntity);
 
+    }
+
+    @Transactional
+    public void updateUserRole(UserDTO userDTO) {
+        UserEntity userEntity = userRepository.findByUuid(userDTO.getUuid())
+                .orElseThrow(() -> new RuntimeException("Cannot find user with specified UUID."));
+
+        RoleEntity roleEntity = roleRepository.findRoleById(userDTO.getRoleId())
+                        .orElseThrow(() -> new RuntimeException(("Cannot find role by specified ID.")));
+
+        userEntity.setRole(roleEntity);
+
+        userRepository.persistAndFlush(userEntity);
     }
 
     private void setPassword(UserDTO userDTO) {
@@ -103,11 +118,6 @@ public class UserService {
         } catch (Exception e) {
             throw new RuntimeException("Unable to hash password, " + e.getMessage(), e);
         }
-    }
-
-    @Transactional
-    public void updateUserRole(UserDTO userDTO) {
-        UserEntity userEntity = userRepository.findById(userDTO.getUuid());
     }
 
     @Transactional
