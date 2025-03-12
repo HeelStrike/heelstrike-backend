@@ -1,142 +1,110 @@
 package com.heelstrike.meal.domain.entity;
 
-import com.heelstrike.core.BaseEntity;
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Fetch;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "recipe")
-@ApplicationScoped
-public class RecipeEntity extends BaseEntity{
+public class RecipeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
-    @Column(name = "recipe_name")
-    private String name;
+    @Column (name = "title")
+    private String title;
 
-    @Column(name = "cooking_instructions", columnDefinition = "TEXT")
+    @Column (name = "description")
+    private String description;
+
+    @Column (name = "cooking_instructions")
     private String cookingInstructions;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "recipe_image_id", foreignKey = @ForeignKey(name = "fk_recipe_image_id"))
-    private RecipeImageEntity recipeImage;
+    @Column (name = "preparation_time")
+    private String preparationTime;
+
+    @Column (name = "cooking_time")
+    private String cookingTime;
+
+    @Column (name = "serves")
+    private int serves;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "recipe_allergen",
-            joinColumns = @JoinColumn(name = "recipe_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "allergen_id", referencedColumnName = "id")
+    @JoinColumn(
+            name = "macro_ingredient_id",
+            referencedColumnName = "id",
+            nullable = false
     )
-    private List<AllergenEntity> allergens = new ArrayList<>();
+    private List<MacroIngredientEntity> macroIngredients;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "recipe_nutrient",
-            joinColumns = @JoinColumn(name = "recipe_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "nutrient_id", referencedColumnName = "id")
-    )
-    private List<NutrientEntity> nutrients = new ArrayList<>();
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
+    @JoinColumn(
             name = "dietary_suitability",
-            joinColumns = @JoinColumn(name = "recipe_id"),
-            inverseJoinColumns = @JoinColumn(name = "diet_id")
+            referencedColumnName = "id",
+            nullable = false
     )
-    private List<DietEntity> dietarySuitability = new ArrayList<>();
+    private List<DietEntity> dietarySuitability;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "recipe_micro_ingredient",
-            joinColumns = @JoinColumn(name = "recipe_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "micro_ingredient_id", referencedColumnName = "id")
-    )
-    private List<MicroIngredientEntity> microIngredients = new ArrayList<>();
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "recipe_macro_ingredient",
-            joinColumns = @JoinColumn(name = "recipe_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "macro_ingredient_id", referencedColumnName = "id")
-    )
-    private List<MacroIngredientEntity> macroIngredients = new ArrayList<>();
-
-    public RecipeEntity() {
-
-    }
-
-    @Override
-    public int getId() {
+    public long getId() {
         return this.id;
     }
 
-    @Override
-    public void setId(int newId) {
-        this.id = newId;
+    public String getTitle() {
+        return this.title;
     }
 
-    @Override
-    public String getName() {
-        return this.name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    @Override
-    public void setName(String newName) {
-        this.name = newName;
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getCookingInstructions() {
         return this.cookingInstructions;
     }
 
-    public void setCookingInstructions(String newCookingInstructions) {
-        this.cookingInstructions = newCookingInstructions;
+    public void setCookingInstructions(String cookingInstructions) {
+        this.cookingInstructions = cookingInstructions;
+    }
+
+    public String getCookingTime() {
+        return this.cookingTime;
+    }
+
+    public void setCookingTime(String cookingTime) {
+        this.cookingTime = cookingTime;
+    }
+
+    public int getServes() {
+        return this.serves;
+    }
+
+    public void setServes(int serves) {
+        this.serves = serves;
     }
 
     public List<MacroIngredientEntity> getMacroIngredients() {
         return this.macroIngredients;
     }
 
-    public void setMacroIngredients(List<MacroIngredientEntity> newMacroIngredients) {
-        this.macroIngredients = newMacroIngredients;
+    public void setMacroIngredients(List<MacroIngredientEntity> macroIngredients) {
+        this.macroIngredients = macroIngredients;
     }
 
-    public List<MicroIngredientEntity> getMicroIngredients() {
-        return this.microIngredients;
-    }
-
-    public void setMicroIngredients(List<MicroIngredientEntity> newMicroIngredients) {
-        this.microIngredients = newMicroIngredients;
-    }
-
-    public void setDietSuitability(List<DietEntity> newDietarySuitability) {
-        this.dietarySuitability = newDietarySuitability;
-    }
-
-    public List<DietEntity> getDietSuitability() {
+    public List<DietEntity> getDietarySuitability() {
         return this.dietarySuitability;
     }
 
-    public void setAllergens(List<AllergenEntity> newAllergens) {
-        this.allergens = newAllergens;
+    public void setDietarySuitability(List<DietEntity> dietarySuitability) {
+        this.dietarySuitability = dietarySuitability;
     }
-
-    public List<AllergenEntity> getAllergens() {
-        return this.allergens;
-    }
-
-    public void setRecipeImage(RecipeImageEntity recipeImage) {
-        this.recipeImage = recipeImage;
-    }
-
-    public RecipeImageEntity getRecipeImage() {
-        return this.recipeImage;
-    }
-
 
 }
