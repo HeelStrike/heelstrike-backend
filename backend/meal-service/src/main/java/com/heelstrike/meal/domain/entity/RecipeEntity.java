@@ -32,18 +32,18 @@ public class RecipeEntity {
     private int serves;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinColumn(
-            name = "macro_ingredient_id",
-            referencedColumnName = "id",
-            nullable = false
+    @JoinTable(
+            name = "micro_ingredient_macro_ingredient",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "macro_ingredient_id")
     )
     private List<MacroIngredientEntity> macroIngredients;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinColumn(
-            name = "dietary_suitability",
-            referencedColumnName = "id",
-            nullable = false
+    @JoinTable(
+            name = "recipe_dietary_suitability",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "diet_id")
     )
     private List<DietEntity> dietarySuitability;
 
