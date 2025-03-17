@@ -9,11 +9,22 @@ import java.util.List;
 public class MacroIngredientEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(
+            name = "id",
+            updatable = false,
+            nullable = false
+    )
     private long id;
 
     @Column(name = "name")
     private String name;
+
+    @OneToMany(
+            mappedBy = "macro_ingredient",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<MicroIngredientMacroIngredientEntity> microIngredientLinks;
 
     public long getId() {
         return this.id;
@@ -25,5 +36,13 @@ public class MacroIngredientEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<MicroIngredientMacroIngredientEntity> getMicroIngredientLinks() {
+        return this.microIngredientLinks;
+    }
+
+    public void setMicroIngredientLinks(List<MicroIngredientMacroIngredientEntity> microIngredientLinks) {
+        this.microIngredientLinks = microIngredientLinks;
     }
 }
