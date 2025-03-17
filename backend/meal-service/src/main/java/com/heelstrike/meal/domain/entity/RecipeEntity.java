@@ -8,9 +8,9 @@ import java.util.List;
 @Entity
 @Table(name = "recipe")
 public class RecipeEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private long id;
 
     @Column (name = "title")
