@@ -7,7 +7,11 @@ import jakarta.persistence.*;
 public class DietEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(
+            name = "id",
+            updatable = false,
+            nullable = false
+    )
     private long id;
 
     @Column(name = "name")
