@@ -12,8 +12,8 @@ CREATE TABLE IF NOT EXISTS recipe (
     title VARCHAR(100) NOT NULL,
     description TEXT,
     cooking_instructions TEXT,
-    preparation_time INTERVAL,
-    cooking_time INTERVAL,
+    preparation_time TEXT,
+    cooking_time TEXT,
     serves INT CHECK (serves > 0),
     difficulty_id BIGINT REFERENCES difficulty(id)
 );
@@ -69,6 +69,17 @@ CREATE TABLE IF NOT EXISTS macro_ingredient (
 );
 COMMENT ON TABLE macro_ingredient IS 'Table for storing macro_ingredients. E.g. Tomato Sauce.';
 
+CREATE TABLE IF NOT EXISTS difficulty (
+    id SERIAL,
+    name VARCHAR(9)
+);
+
+CREATE TABLE IF NOT EXISTS recipe_difficulty (
+    id SERIAL,
+    recipe_id BIGINT NOT NULL REFERENCES recipe(id) ON DELETE CASCADE,
+    difficulty_id INT NOT NULL REFERENCES difficulty(id) ON DELETE CASCADE ,
+    UNIQUE(recipe_id, difficulty_id)
+);
 
 CREATE TABLE IF NOT EXISTS micro_ingredient_macro_ingredient (
     id BIGSERIAL PRIMARY KEY,
