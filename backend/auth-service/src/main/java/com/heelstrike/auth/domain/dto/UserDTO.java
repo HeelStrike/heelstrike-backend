@@ -1,7 +1,5 @@
 package com.heelstrike.auth.domain.dto;
 
-import jakarta.enterprise.context.ApplicationScoped;
-
 import java.util.UUID;
 
 public class UserDTO {
