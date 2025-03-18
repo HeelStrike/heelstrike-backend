@@ -94,18 +94,15 @@ public class AuthResource {
         }
     }
 
-    @POST
+    @DELETE
     @Path("/delete-user")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
-    public Response deleteUser(@QueryParam("username") String username) {
-
-        userDTO.setUsername(username);
-
+    public Response deleteUser(UserDTO userDTO) {
         try {
             userService.deleteUser(userDTO);
 
-            return Response.ok("User deleted successfully.").build();
+            return Response.status(Response.Status.NO_CONTENT).entity("User deleted successfully.").build();
 
         } catch (Exception e) {
 
