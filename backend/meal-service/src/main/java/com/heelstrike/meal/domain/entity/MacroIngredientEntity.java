@@ -7,42 +7,40 @@ import java.util.List;
 @Entity
 @Table(name = "macro_ingredient")
 public class MacroIngredientEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(
-            name = "id",
-            updatable = false,
-            nullable = false
-    )
-    private long id;
+    private Long id;
 
-    @Column(name = "name")
     private String name;
 
-    @OneToMany(
-            mappedBy = "macro_ingredient",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
+    @ManyToMany
+    @JoinTable(
+            name = "micro_ingredient_macro_ingredient",
+            joinColumns = @JoinColumn(name = "macro_ingredient_id"),
+            inverseJoinColumns = @JoinColumn(name = "micro_ingredient_id")
     )
-    private List<MicroIngredientMacroIngredientEntity> microIngredientLinks;
+    private List<MicroIngredientEntity> microIngredients;
 
-    public long getId() {
-        return this.id;
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public List<MicroIngredientMacroIngredientEntity> getMicroIngredientLinks() {
-        return this.microIngredientLinks;
+    public List<MicroIngredientEntity> getMicroIngredients() {
+        return microIngredients;
     }
-
-    public void setMicroIngredientLinks(List<MicroIngredientMacroIngredientEntity> microIngredientLinks) {
-        this.microIngredientLinks = microIngredientLinks;
+    public void setMicroIngredients(List<MicroIngredientEntity> microIngredients) {
+        this.microIngredients = microIngredients;
     }
 }
