@@ -1,5 +1,6 @@
 package com.heelstrike.meal.domain.entity;
 
+import com.heelstrike.meal.util.DurationConverter;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Fetch;
 
@@ -27,9 +28,11 @@ public class RecipeEntity {
     @Column(name = "cooking_instructions")
     private String cookingInstructions;
 
+    @Convert(converter = DurationConverter.class)
     @Column(name = "preparation_time")
     private Duration preparationTime;
 
+    @Convert(converter = DurationConverter.class)
     @Column(name = "cooking_time")
     private Duration cookingTime;
 
