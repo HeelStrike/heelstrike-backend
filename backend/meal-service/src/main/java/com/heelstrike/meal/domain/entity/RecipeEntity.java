@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.Fetch;
 
 import java.time.Duration;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "recipe")
@@ -28,13 +28,11 @@ public class RecipeEntity {
     @Column(name = "cooking_instructions")
     private String cookingInstructions;
 
-    @Convert(converter = DurationConverter.class)
     @Column(name = "preparation_time")
-    private Duration preparationTime;
+    private String preparationTime;
 
-    @Convert(converter = DurationConverter.class)
     @Column(name = "cooking_time")
-    private Duration cookingTime;
+    private String cookingTime;
 
     @Column(name = "serves")
     private int serves;
@@ -49,7 +47,7 @@ public class RecipeEntity {
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "macro_ingredient_id")
     )
-    private List<MacroIngredientEntity> macroIngredients;
+    private Set<MacroIngredientEntity> macroIngredients;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -57,7 +55,7 @@ public class RecipeEntity {
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "micro_ingredient_id")
     )
-    private List<MicroIngredientEntity> microIngredients;
+    private Set<MicroIngredientEntity> microIngredients;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -65,15 +63,7 @@ public class RecipeEntity {
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "diet_id")
     )
-    private List<DietEntity> dietarySuitability;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "recipe_allergen",
-            joinColumns = @JoinColumn(name = "recipe_id"),
-            inverseJoinColumns = @JoinColumn(name = "allergen_id")
-    )
-    private List<AllergenEntity> allergens;
+    private Set<DietEntity> dietarySuitability;
 
     public long getId() {
         return this.id;
@@ -103,19 +93,19 @@ public class RecipeEntity {
         this.cookingInstructions = cookingInstructions;
     }
 
-    public Duration getPreparationTime() {
+    public String getPreparationTime() {
         return preparationTime;
     }
 
-    public void setPreparationTime(Duration preparationTime) {
+    public void setPreparationTime(String preparationTime) {
         this.preparationTime = preparationTime;
     }
 
-    public Duration getCookingTime() {
+    public String getCookingTime() {
         return this.cookingTime;
     }
 
-    public void setCookingTime(Duration cookingTime) {
+    public void setCookingTime(String cookingTime) {
         this.cookingTime = cookingTime;
     }
 
@@ -135,27 +125,19 @@ public class RecipeEntity {
         this.difficulty = difficulty;
     }
 
-    public List<MacroIngredientEntity> getMacroIngredients() {
+    public Set<MacroIngredientEntity> getMacroIngredients() {
         return this.macroIngredients;
     }
 
-    public void setMacroIngredients(List<MacroIngredientEntity> macroIngredients) {
+    public void setMacroIngredients(Set<MacroIngredientEntity> macroIngredients) {
         this.macroIngredients = macroIngredients;
     }
 
-    public List<DietEntity> getDietarySuitability() {
+    public Set<DietEntity> getDietarySuitability() {
         return this.dietarySuitability;
     }
 
-    public void setDietarySuitability(List<DietEntity> dietarySuitability) {
+    public void setDietarySuitability(Set<DietEntity> dietarySuitability) {
         this.dietarySuitability = dietarySuitability;
-    }
-
-    public List<AllergenEntity> getAllergens() {
-        return allergens;
-    }
-
-    public void setAllergens(List<AllergenEntity> allergens) {
-        this.allergens = allergens;
     }
 }
