@@ -1,13 +1,13 @@
 package com.heelstrike.meal.domain.repository;
 
 import com.heelstrike.meal.domain.dto.*;
-import io.quarkus.hibernate.orm.panache.PanacheRepository;
-import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import com.heelstrike.meal.domain.entity.RecipeEntity;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.transaction.Transactional;
 import com.heelstrike.meal.util.DurationConverter;
 
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
+import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +29,6 @@ public class RecipeRepository implements PanacheRepository<RecipeEntity> {
                 "LEFT JOIN FETCH m.microIngredients mi " +
                 "LEFT JOIN FETCH mi.nutrients n " +
                 "LEFT JOIN FETCH r.dietarySuitability dts " +
-
                 "LEFT JOIN FETCH mi.allergens a " +
                 "WHERE 1=1";
 
@@ -54,15 +53,20 @@ public class RecipeRepository implements PanacheRepository<RecipeEntity> {
             );
         }
 
-        //if (requirements.getNutrients() != null || !requirements.getNutrients().isEmpty()) {
-        //    query += "AND COALESCE(n.name, '') IN (:nutrients) ";
-        //    params.put("nutrients",
-        //            requirements.getNutrients()
-        //                    .stream()
-        //                    .map(NutrientDTO::getName)
-        //                    .toList()
-        //    );
-        //}
+        if (requirements.getNutrients() != null && !requirements.getNutrients().isEmpty()) {
+            query += "AND n.id IN (:nutrientIds) ";
+            params.put("nutrientIds",
+                    requirements.getNutrients()
+                            .stream()
+                            .map(NutrientDTO::getId)
+                            .toList()
+            );
+        }
+
+        if (requirements.getDifficulty() != null && !requirements.getDifficulty().isEmpty()) {
+            query += "AND r.difficulty.name = :difficulty ";
+            params.put("difficulty", requirements.getDifficulty());
+        }
 
         return find(query, params).list();
     }
