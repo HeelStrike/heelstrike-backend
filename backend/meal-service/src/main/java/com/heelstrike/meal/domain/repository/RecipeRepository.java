@@ -29,6 +29,7 @@ public class RecipeRepository implements PanacheRepository<RecipeEntity> {
                 "LEFT JOIN FETCH m.microIngredients mi " +
                 "LEFT JOIN FETCH mi.nutrients n " +
                 "LEFT JOIN FETCH r.dietarySuitability dts " +
+
                 "LEFT JOIN FETCH mi.allergens a " +
                 "WHERE 1=1";
 
@@ -44,15 +45,14 @@ public class RecipeRepository implements PanacheRepository<RecipeEntity> {
             );
         }
 
-        //TODO: Seed with correct data.
-        //if (requirements.getSuitableForTheseDiets() != null && !requirements.getSuitableForTheseDiets().isEmpty()) {
-        //    query += "AND COALESCE(dts.name, '') IN (:diets) ";
-        //    params.put("diets", requirements.getSuitableForTheseDiets()
-        //            .stream()
-        //            .map(DietDTO::getName)
-        //            .toList()
-        //    );
-        //}
+        if (requirements.getSuitableForTheseDiets() != null && !requirements.getSuitableForTheseDiets().isEmpty()) {
+            query += "AND COALESCE(dts.name, '') IN (:diets) ";
+            params.put("diets", requirements.getSuitableForTheseDiets()
+                    .stream()
+                    .map(DietDTO::getName)
+                    .toList()
+            );
+        }
 
         //if (requirements.getNutrients() != null || !requirements.getNutrients().isEmpty()) {
         //    query += "AND COALESCE(n.name, '') IN (:nutrients) ";
