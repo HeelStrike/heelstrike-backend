@@ -1,24 +1,21 @@
 package com.heelstrike.meal.domain.dto;
 
-import com.heelstrike.meal.domain.entity.DietEntity;
-import com.heelstrike.meal.domain.entity.MacroIngredientEntity;
-import com.heelstrike.meal.domain.entity.MicroIngredientEntity;
-
 import java.util.List;
+import java.util.Set;
 
 public class RecipeDTO {
     private long id;
     private String title;
     private String description;
     private String cookingInstructions;
-    private String cookingtime;
+    private String cookingTime;
     private String preparationTime;
     private int serves;
-    private List<MacroIngredientDTO> macroIngredients;
-    private List<MicroIngredientDTO> microIngredients;
-    private List<AllergenDTO> allergens;
-    private List<DietDTO> dietarySuitability;
-
+    private String difficulty;
+    private Set<MacroIngredientDTO> macroIngredients;
+    private Set<MicroIngredientDTO> microIngredients;
+    private Set<AllergenDTO> allergens;
+    private Set<DietDTO> dietarySuitability;
 
     public long getId() {
         return this.id;
@@ -52,12 +49,12 @@ public class RecipeDTO {
         this.cookingInstructions = cookingInstructions;
     }
 
-    public String getCookingtime() {
-        return this.cookingtime;
+    public String getCookingTime() {
+        return this.cookingTime;
     }
 
-    public void setCookingtime(String cookingtime) {
-        this.cookingtime = cookingtime;
+    public void setCookingTime(String cookingTime) {
+        this.cookingTime = cookingTime;
     }
 
     public String getPreparationTime() {
@@ -76,27 +73,43 @@ public class RecipeDTO {
         this.serves = serves;
     }
 
-    public List<MacroIngredientDTO> getMacroIngredients() {
+    public String getDifficulty() {
+        return this.difficulty;
+    }
+
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public Set<MacroIngredientDTO> getMacroIngredients() {
         return macroIngredients;
     }
 
-    public void setMacroIngredients(List<MacroIngredientDTO> macroIngredients) {
+    public void setMacroIngredients(Set<MacroIngredientDTO> macroIngredients) {
         this.macroIngredients = macroIngredients;
     }
 
-    public List<MicroIngredientDTO> getMicroIngredients() {
+    public Set<MicroIngredientDTO> getMicroIngredients() {
         return microIngredients;
     }
 
-    public void setMicroIngredients(List<MicroIngredientDTO> microIngredients) {
+    public void setMicroIngredients(Set<MicroIngredientDTO> microIngredients) {
         this.microIngredients = microIngredients;
     }
 
-    public List<DietDTO> getDietarySuitability() {
+    public Set<AllergenDTO> getAllergens() {
+        return this.allergens;
+    }
+
+    public void setAllergens(Set<AllergenDTO> allergens) {
+        this.allergens = allergens;
+    }
+
+    public Set<DietDTO> getDietarySuitability() {
         return dietarySuitability;
     }
 
-    public void setDietarySuitability(List<DietDTO> dietarySuitability) {
+    public void setDietarySuitability(Set<DietDTO> dietarySuitability) {
         this.dietarySuitability = dietarySuitability;
     }
 }
