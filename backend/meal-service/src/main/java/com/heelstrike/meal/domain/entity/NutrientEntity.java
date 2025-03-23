@@ -1,5 +1,6 @@
 package com.heelstrike.meal.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class NutrientEntity {
             joinColumns = @JoinColumn(name = "nutrient_id"),
             inverseJoinColumns = @JoinColumn(name = "micro_ingredient_id")
     )
+    @JsonBackReference
     private Set<MicroIngredientEntity> microIngredients;
 
     public long getId() {

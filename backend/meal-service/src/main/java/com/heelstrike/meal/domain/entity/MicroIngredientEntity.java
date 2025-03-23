@@ -1,5 +1,7 @@
 package com.heelstrike.meal.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -15,9 +17,15 @@ public class MicroIngredientEntity {
     private String name;
 
     @ManyToMany(mappedBy = "microIngredients")
+    @JsonBackReference(value = "macro-micro")
     private Set<MacroIngredientEntity> macroIngredients;
 
-    @ManyToMany(mappedBy = "microIngredients")
+    @ManyToMany
+    @JoinTable(
+            name = "nutrient_micro_ingredient",
+            joinColumns = @JoinColumn(name = "micro_ingredient_id"),
+            inverseJoinColumns = @JoinColumn(name = "nutrient_id")
+    )
     private Set<NutrientEntity> nutrients;
 
     @ManyToMany
@@ -26,6 +34,7 @@ public class MicroIngredientEntity {
             joinColumns = @JoinColumn(name = "micro_ingredient_id"),
             inverseJoinColumns = @JoinColumn(name = "allergen_id")
     )
+    @JsonManagedReference
     private Set<AllergenEntity> allergens;
 
     public Long getId() {

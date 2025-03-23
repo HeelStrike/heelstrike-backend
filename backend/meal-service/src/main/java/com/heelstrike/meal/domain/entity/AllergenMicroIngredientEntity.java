@@ -1,5 +1,7 @@
 package com.heelstrike.meal.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,6 +18,7 @@ public class AllergenMicroIngredientEntity {
 
     @ManyToOne
     @JoinColumn(name = "allergen_id", nullable = false)
+    @JsonBackReference
     private AllergenEntity allergen_id;
 
     @ManyToOne
