@@ -13,6 +13,7 @@ import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Path("/recipe")
 //@RolesAllowed("User")
@@ -43,11 +44,11 @@ public class RecipeResource {
         return Response.status(Response.Status.NOT_FOUND).build();
     }
 
-    //@POST
-    //@Path("/add")
-    //@Consumes("application/json")
-    //public Response addRecipe(RecipeDTO recipeDTO) {
-    //    recipeService.addRecipe(recipeDTO);
-    //    return Response.ok(recipeDTO).build();
-    //}
+    @POST
+    @Path("/add")
+    @Consumes("application/json")
+    public Response addRecipe(RecipeDTO recipeDTO) {
+        recipeService.addRecipe(recipeDTO);
+        return Response.ok(recipeDTO).build();
+    }
 }
