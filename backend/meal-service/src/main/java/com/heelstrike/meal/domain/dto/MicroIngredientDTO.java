@@ -1,11 +1,12 @@
 package com.heelstrike.meal.domain.dto;
 
 import java.util.List;
+import java.util.Set;
 
 public class MicroIngredientDTO {
     private long id;
     private String name;
-    private List<AllergenDTO> allergens;
+    private Set<AllergenDTO> allergens;
 
     public long getId() {
         return this.id;
@@ -23,11 +24,11 @@ public class MicroIngredientDTO {
         this.name = name;
     }
 
-    public List<AllergenDTO> getAllergens() {
+    public Set<AllergenDTO> getAllergens() {
         return this.allergens;
     }
 
-    public void setAllergens(List<AllergenDTO> allergens) {
+    public void setAllergens(Set<AllergenDTO> allergens) {
         this.allergens = allergens;
     }
 }
