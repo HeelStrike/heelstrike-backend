@@ -3,7 +3,7 @@ package com.heelstrike.meal.domain.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "macro_ingredient")
@@ -22,7 +22,7 @@ public class MacroIngredientEntity {
             inverseJoinColumns = @JoinColumn(name = "micro_ingredient_id")
     )
     @JsonManagedReference(value = "macro-micro")
-    private List<MicroIngredientEntity> microIngredients;
+    private Set<MicroIngredientEntity> microIngredients;
 
     public Long getId() {
         return id;
@@ -39,10 +39,10 @@ public class MacroIngredientEntity {
         this.name = name;
     }
 
-    public List<MicroIngredientEntity> getMicroIngredients() {
+    public Set<MicroIngredientEntity> getMicroIngredients() {
         return microIngredients;
     }
-    public void setMicroIngredients(List<MicroIngredientEntity> microIngredients) {
+    public void setMicroIngredients(Set<MicroIngredientEntity> microIngredients) {
         this.microIngredients = microIngredients;
     }
 }
