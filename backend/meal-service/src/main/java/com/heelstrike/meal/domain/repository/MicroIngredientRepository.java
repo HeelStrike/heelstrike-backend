@@ -21,4 +21,8 @@ public class MicroIngredientRepository implements PanacheRepository<MicroIngredi
         return find(query, params).list();
     }
 
+    public List<MicroIngredientEntity> findByMicroAndMacroIds(Long microIngredientId, Long macroIngredientId) {
+        return find("SELECT mi FROM MicroIngredientEntity mi JOIN mi.macroIngredients m WHERE mi.id = ?1 AND m.id = ?2", microIngredientId, macroIngredientId)
+                .list();
+    }
 }
