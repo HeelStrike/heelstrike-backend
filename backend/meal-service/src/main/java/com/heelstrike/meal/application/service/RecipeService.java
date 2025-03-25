@@ -49,6 +49,20 @@ public class RecipeService {
         }
     }
 
+    public RecipeDTO getRecipe(Long id) {
+
+        LOG.info("Getting recipe with ID:" + id);
+
+        RecipeEntity recipeEntity = recipeRepository.findById(id);
+
+        if (recipeEntity == null) {
+            LOG.error("Recipe not found with ID: " + id);
+            throw new NotFoundException("Recipe not found with ID: " + id);
+        }
+
+        return recipeDTOFromEntity(recipeEntity);
+    }
+
     public List<RecipeEntity> getRecipesByRequirements(RecipeRequirementsDTO requirements) {
 
         LOG.info("Searching for recipe based on requirements.");
