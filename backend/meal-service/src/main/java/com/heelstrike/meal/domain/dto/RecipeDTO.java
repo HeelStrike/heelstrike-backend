@@ -112,4 +112,20 @@ public class RecipeDTO {
     public void setDietarySuitability(Set<DietDTO> dietarySuitability) {
         this.dietarySuitability = dietarySuitability;
     }
+
+    @Override
+    public String toString() {
+        return "ID: " +
+                this.id +
+                " Title: " +
+                this.title +
+                " Description: " +
+                this.description +
+                " CookingInstructions: " +
+                this.cookingInstructions +
+                " CookingTime: " +
+                this.cookingTime +
+                " PreparationTime: " +
+                this.preparationTime;
+    }
 }
