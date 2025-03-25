@@ -1,17 +1,12 @@
 package com.heelstrike.meal.application.service;
 
 import com.heelstrike.meal.domain.dto.*;
-import com.heelstrike.meal.domain.entity.DietEntity;
-import com.heelstrike.meal.domain.entity.DifficultyEntity;
-import com.heelstrike.meal.domain.entity.MacroIngredientEntity;
-import com.heelstrike.meal.domain.entity.RecipeEntity;
-import com.heelstrike.meal.domain.repository.DietRepository;
-import com.heelstrike.meal.domain.repository.DifficultyRepository;
-import com.heelstrike.meal.domain.repository.MacroIngredientRepository;
-import com.heelstrike.meal.domain.repository.RecipeRepository;
+import com.heelstrike.meal.domain.entity.*;
+import com.heelstrike.meal.domain.repository.*;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.PersistenceException;
+import jakarta.ws.rs.NotFoundException;
 import org.jboss.logging.Logger;
 
 import java.util.*;
@@ -34,6 +29,9 @@ public class RecipeService {
 
     @Inject
     DietRepository dietRepository;
+
+    @Inject
+    MicroIngredientRepository microIngredientRepository;
 
     public void addRecipe(RecipeDTO recipeDTO) {
 
@@ -146,6 +144,81 @@ public class RecipeService {
         }
 
         return recipeEntity;
+    }
+
+    private RecipeDTO recipeDTOFromEntity(RecipeEntity recipeEntity) {
+        RecipeDTO recipeDTO = new RecipeDTO();
+
+        LOG.info("Converting Recipe Entity to Recipe Data Transfer Object: ");
+
+        try {
+            recipeDTO.setTitle(recipeEntity.getTitle());
+            recipeDTO.setDescription(recipeEntity.getDescription());
+            recipeDTO.setCookingInstructions(recipeEntity.getCookingInstructions());
+            recipeDTO.setPreparationTime(recipeEntity.getPreparationTime());
+            recipeDTO.setCookingTime(recipeEntity.getPreparationTime());
+            recipeDTO.setServes(recipeEntity.getServes());
+            recipeDTO.setDifficulty(recipeEntity.getDifficulty().getName());
+
+            LOG.debug("Set Title, Description, Cooking Instructions, Preparation Time, Cooking Time, Serves and Difficulty to RecipeDTO.");
+
+
+            /* TODO: Complete mapping for:
+             * Allergens,
+             * MicroIngredients
+             * DietarySuitability
+             * TODO: Refactor this out into mapper class because it's currently messy.
+             * */
+            Set<MacroIngredientDTO> macroIngredientDTOs = recipeEntity.getMacroIngredients()
+                    .stream()
+                    .map(macroIngredient -> {
+                        MacroIngredientDTO macroIngredientDTO = new MacroIngredientDTO();
+                        macroIngredientDTO.setId(macroIngredient.getId());
+                        macroIngredientDTO.setName(macroIngredient.getName());
+
+                        Set<MicroIngredientDTO> microIngredientDTOs = macroIngredient.getMicroIngredients()
+                                .stream()
+                                .map(microIngredient -> {
+                                    MicroIngredientDTO microIngredientDTO = new MicroIngredientDTO();
+                                    microIngredientDTO.setId(microIngredient.getId());
+                                    microIngredientDTO.setName(microIngredient.getName());
+
+                                    Set<AllergenDTO> allergenDTOs = microIngredient.getAllergens()
+                                            .stream()
+                                            .map(allergen -> {
+                                                AllergenDTO allergenDTO = new AllergenDTO();
+                                                allergenDTO.setId(allergen.getId());
+                                                allergenDTO.setName(allergen.getName());
+                                                return allergenDTO;
+                                            })
+                                            .collect(Collectors.toSet());
+
+                                    microIngredientDTO.setAllergens(allergenDTOs);
+                                    return microIngredientDTO;
+                                })
+                                .collect(Collectors.toSet());
+
+                        macroIngredientDTO.setMicroIngredients(microIngredientDTOs);
+                        return macroIngredientDTO;
+                    })
+                    .collect(Collectors.toSet());
+
+            Set<DietDTO> dietarySuitability = recipeEntity.getDietarySuitability()
+                    .stream()
+                    .map(dietEntity -> {
+                        DietDTO diet = new DietDTO();
+                        diet.setId(dietEntity.getId());
+                        diet.setName(dietEntity.getName());
+                        return diet;
+                    })
+                    .collect(Collectors.toSet());
+
+            return recipeDTO;
+
+        } catch (Exception e) {
+            LOG.error("Couldn't map RecipeEntity to RecipeDTO." + e);
+            throw new RuntimeException("Could not map RecipeEntity to RecipeDTO.", e);
+        }
     }
 }
 
