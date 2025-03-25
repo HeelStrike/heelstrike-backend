@@ -12,13 +12,17 @@ import com.heelstrike.meal.domain.repository.RecipeRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.PersistenceException;
+import org.jboss.logging.Logger;
 
-import java.security.InvalidParameterException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+
 @ApplicationScoped
 public class RecipeService {
+
+    private static final Logger LOG = Logger.getLogger(RecipeService.class);
+
     @Inject
     RecipeRepository recipeRepository;
 
@@ -32,6 +36,9 @@ public class RecipeService {
     DietRepository dietRepository;
 
     public void addRecipe(RecipeDTO recipeDTO) {
+
+        LOG.info("Adding new recipe by title: " + recipeDTO.toString());
+
         if (recipeRepository.findByTitle(recipeDTO.getTitle()).isEmpty()) {
             RecipeEntity recipeEntity = recipeEntityFromDTO(recipeDTO);
             try {
@@ -45,6 +52,9 @@ public class RecipeService {
     }
 
     public List<RecipeEntity> getRecipesByRequirements(RecipeRequirementsDTO requirements) {
+
+        LOG.info("Searching for recipe based on requirements.");
+
         String query = "SELECT DISTINCT r FROM RecipeEntity r " +
                 "LEFT JOIN FETCH r.macroIngredients m " +
                 "LEFT JOIN FETCH m.microIngredients mi " +
@@ -94,6 +104,7 @@ public class RecipeService {
 
     private RecipeEntity recipeEntityFromDTO(RecipeDTO recipeDTO) {
         RecipeEntity recipeEntity = new RecipeEntity();
+        LOG.info("Converting Recipe Data Transfer Object to Recipe Entity class: " + recipeDTO.toString());
 
         try {
             recipeEntity.setTitle(recipeDTO.getTitle());
@@ -103,10 +114,13 @@ public class RecipeService {
             recipeEntity.setCookingTime(recipeDTO.getCookingTime());
             recipeEntity.setServes(recipeDTO.getServes());
 
+            LOG.debug("Set Title, Description, Cooking Instructions, Preparation Time, Cooking Time and Serves to RecipeEntity.");
+
             DifficultyEntity difficulty = difficultyRepository.findByName(recipeDTO.getDifficulty())
                     .orElseThrow(() -> new RuntimeException("Difficulty level not found." + recipeDTO.getDifficulty()));
 
             recipeEntity.setDifficulty(difficulty);
+            LOG.debug("Resolved difficulty level, RecipeEntity.setDifficulty=" + recipeEntity.getDifficulty());
 
             Set<MacroIngredientEntity> macroIngredients = recipeDTO.getMacroIngredients()
                     .stream()
@@ -115,6 +129,7 @@ public class RecipeService {
                     .collect(Collectors.toSet());
 
             recipeEntity.setMacroIngredients(macroIngredients);
+            LOG.debug("Resolved Macro Ingredients, RecipeEntity.setMacroIngredients=" + recipeEntity.getMacroIngredients());
 
             Set<DietEntity> dietarySuitability = recipeDTO.getDietarySuitability()
                             .stream()
@@ -123,9 +138,11 @@ public class RecipeService {
                                             .collect(Collectors.toSet());
 
             recipeEntity.setDietarySuitability(dietarySuitability);
+            LOG.debug("Resolved Diets, RecipeEntity.setDietarySuitability=" + recipeEntity.getDietarySuitability());
 
         } catch (Exception e) {
-            throw new RuntimeException("Failed to convert RecipeDTO to RecipeEntity", e);
+            LOG.error("Failed to convert RecipeDTO to RecipeEntity " + e);
+            throw new RuntimeException("Failed to convert RecipeDTO to RecipeEntity ", e);
         }
 
         return recipeEntity;
