@@ -1,30 +1,35 @@
 package com.heelstrike.meal.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import java.time.Duration;
 import java.util.List;
+import java.util.Set;
 
 public class RecipeRequirementsDTO {
-    private Duration[] cookingTimeRange = new Duration[2];
-    private Duration[] preparationTimeRange = new Duration[2];
+    private String[] cookingTimeRange = new String[2];
+    private String[] preparationTimeRange = new String[2];
+
     private int servesModifier;
     private String difficulty;
     private List<NutrientDTO> nutrients;
     private List<AllergenDTO> allergensToAvoid;
     private List<DietDTO> suitableForTheseDiets;
 
-    public Duration[] getCookingTimeRange() {
+    public String[] getCookingTimeRange() {
         return this.cookingTimeRange;
     }
 
-    public void setCookingTimeRange(Duration[] cookingTimeRange) {
+    public void setCookingTimeRange(String[] cookingTimeRange) {
         this.cookingTimeRange = cookingTimeRange;
     }
 
-    public Duration[] getPreparationTimeRange() {
+    public String[] getPreparationTimeRange() {
         return this.preparationTimeRange;
     }
 
-    public void setPreparationTimeRange(Duration[] preparationTimeRange) {
+    public void setPreparationTimeRange(String[] preparationTimeRange) {
         this.preparationTimeRange = preparationTimeRange;
     }
 
@@ -53,7 +58,7 @@ public class RecipeRequirementsDTO {
     }
 
     public List<AllergenDTO> getAllergensToAvoid() {
-        return allergensToAvoid;
+        return this.allergensToAvoid;
     }
 
     public void setAllergensToAvoid(List<AllergenDTO> allergensToAvoid) {
