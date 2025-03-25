@@ -10,5 +10,5 @@ import java.util.Optional;
 public class MacroIngredientRepository implements PanacheRepository<MacroIngredientEntity> {
         public Optional<MacroIngredientEntity> findByName(String name) {
             return find("name", name).firstResultOptional();
-    }
+        }
 }
