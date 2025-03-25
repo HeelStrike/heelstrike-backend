@@ -22,13 +22,27 @@ public class RecipeResource {
     @Inject
     RecipeService recipeService;
 
-    //@GET
-    //@Path("/get")
-    //@Consumes("application/json")
-    //public Response getRecipe(RecipeDTO recipDTO) {
-    //    RecipeDTO result = recipeService.get(RecipeDTO);
-    //    return Response.ok(result).build();
-    //}
+    //TODO: Obviously, refactor this so that title, difficulty etc... can be used as query parameters.
+    /*
+    * It's also worth highlighting, it's probably a good idea to decompose mapping functionality in recipeService.getRecipe
+    * because it's
+    * */
+    @GET
+    @Path("/get")
+    @Consumes("application/json")
+    public Response getRecipe(
+            @QueryParam("id") Long id,
+            @QueryParam("title") String title,
+            @QueryParam("difficulty") String difficulty
+    ) {
+        RecipeDTO recipe = recipeService.getRecipe(id);
+
+        if (recipe != null) {
+            return Response.ok(recipe).build();
+        }
+
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
 
     @POST
     @Path("/search")
