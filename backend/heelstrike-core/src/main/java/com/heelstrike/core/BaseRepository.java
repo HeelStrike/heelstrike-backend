@@ -22,23 +22,28 @@ public abstract class BaseRepository<T> {
     public BaseRepository(){
     }
 
+    @Deprecated
     public T saveEntity(T entity) {
         entityManager.persist(entity);
         return entity;
     }
 
+    @Deprecated
     protected T updateEntity(T entity) {
         return entityManager.merge(entity);
     }
 
+    @Deprecated
     protected T findEntityById(Class<T> entityClass, int id) {
         return entityManager.find(entityClass, id);
     }
 
+    @Deprecated
     public T findEntityByUuid(Class<T> entityClass, UUID uuid) {
         return entityManager.find(entityClass, uuid);
     }
 
+    @Deprecated
     public List<T> findAllEntities(Class<T> entityClass) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
@@ -49,6 +54,7 @@ public abstract class BaseRepository<T> {
         return entityManager.createQuery(criteriaQuery).getResultList();
     }
 
+    @Deprecated
     public <V> Optional<T> findSingleEntityByField(Class<T> entityClass, String field, V value) throws NoResultException {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
@@ -65,6 +71,7 @@ public abstract class BaseRepository<T> {
         }
     }
 
+    @Deprecated
     public Optional<List<T>> findEntity(Class<T> entityClass, Map<String, Object> filters) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<T> query = criteriaBuilder.createQuery(entityClass);
@@ -88,6 +95,7 @@ public abstract class BaseRepository<T> {
         return Optional.ofNullable(results.isEmpty() ? null : results);
     }
 
+    @Deprecated
     protected <V> List<Optional<T>> findEntityByField(Class<T> entityClass, String field, V value) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
@@ -101,17 +109,7 @@ public abstract class BaseRepository<T> {
                 .toList();
     }
 
-    //TODO: Refactor, shouldn't even be returning list of optionals (see above) but didnt have time to refactor whole recipe service
-    protected <V> List<T> findEntityByField2(Class<T> entityClass, String field, V value) {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
-        Root<T> root = criteriaQuery.from(entityClass);
-
-        criteriaQuery.select(root).where(criteriaBuilder.equal(root.get(field), value));
-
-        return entityManager.createQuery(criteriaQuery).getResultList();
-    }
-
+    @Deprecated
     @Transactional
     protected <V> int deleteByField(Class<T> entityClass, String field, V value) throws NoResultException {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
