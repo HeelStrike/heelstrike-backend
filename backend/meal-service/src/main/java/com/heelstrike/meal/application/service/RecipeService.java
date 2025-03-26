@@ -61,7 +61,6 @@ public class RecipeService {
         return recipeMapper.recipeDTOFromEntity(recipeEntity);
     }
 
-
     public List<RecipeEntity> getRecipesByRequirements(RecipeRequirementsDTO requirements) {
 
         LOG.info("Searching for recipe based on requirements.");
@@ -120,7 +119,7 @@ public class RecipeService {
         LOG.debug("Updating recipe with ID: " + recipeDTO.getId());
 
         if (recipeEntityOptional.isPresent()) {
-            final RecipeEntity recipeEntity = getRecipe(recipeDTO, recipeEntityOptional);
+            final RecipeEntity recipeEntity = getRecipeToUpdate(recipeDTO, recipeEntityOptional);
 
             LOG.debug("Successfully updated recipe with ID: " + recipeDTO.getId());
             return recipeMapper.recipeDTOFromEntity(recipeEntity);
@@ -130,7 +129,7 @@ public class RecipeService {
         }
     }
 
-    private static @NotNull RecipeEntity getRecipe(RecipeDTO recipeDTO, Optional<RecipeEntity> recipeEntityOptional) {
+    private static @NotNull RecipeEntity getRecipeToUpdate(RecipeDTO recipeDTO, Optional<RecipeEntity> recipeEntityOptional) {
             RecipeEntity recipeEntity = recipeEntityOptional.get();
 
             recipeEntity.setTitle(updateIfNotNull(recipeDTO.getTitle(), recipeEntity.getTitle()));
@@ -141,6 +140,11 @@ public class RecipeService {
             recipeEntity.setServes(updateIfNotNull(recipeDTO.getServes(), recipeEntity.getServes()));
 
             return recipeEntity;
+    }
+
+    @Transactional
+    public void deleteRecipe(RecipeDTO recipeDTO) {
+        recipeRepository.delete(recipeMapper.recipeEntityFromDTO(recipeDTO));
     }
 }
 
