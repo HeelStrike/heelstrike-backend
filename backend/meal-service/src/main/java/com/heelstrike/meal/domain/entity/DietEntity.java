@@ -12,12 +12,12 @@ public class DietEntity {
             updatable = false,
             nullable = false
     )
-    private long id;
+    private Long id;
 
     @Column(name = "name")
     private String name;
 
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
 
