@@ -22,6 +22,14 @@ public class RecipeResource {
     @Inject
     RecipeService recipeService;
 
+    @POST
+    @Path("/add")
+    @Consumes("application/json")
+    public Response addRecipe(RecipeDTO recipeDTO) {
+        recipeService.addRecipe(recipeDTO);
+        return Response.ok(recipeDTO).build();
+    }
+
     //TODO: Obviously, refactor this so that title, difficulty etc... can be used as query parameters.
     /*
     * It's also worth highlighting, it's probably a good idea to decompose mapping functionality in recipeService.getRecipe
@@ -59,10 +67,22 @@ public class RecipeResource {
     }
 
     @POST
-    @Path("/add")
-    @Consumes("application/json")
-    public Response addRecipe(RecipeDTO recipeDTO) {
-        recipeService.addRecipe(recipeDTO);
-        return Response.ok(recipeDTO).build();
+    @Path("/update")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateRecipe(RecipeDTO recipeDTO) {
+        RecipeDTO updatedRecipeDTO = recipeService.updateRecipe(recipeDTO);
+
+        return Response.ok(updatedRecipeDTO).build();
+    }
+
+    @POST
+    @Path("/delete")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deleteRecipe(RecipeDTO recipeDTO) {
+        recipeService.deleteRecipe(recipeDTO);
+
+        return Response.ok(recipeDTO + " deleted Successfully.").build();
     }
 }

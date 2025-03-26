@@ -4,14 +4,20 @@ import com.heelstrike.meal.application.mapper.RecipeMapper;
 import com.heelstrike.meal.domain.dto.*;
 import com.heelstrike.meal.domain.entity.*;
 import com.heelstrike.meal.domain.repository.*;
+import com.heelstrike.meal.util.UpdateUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.PersistenceException;
+import jakarta.persistence.Transient;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 import org.jboss.logging.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.heelstrike.meal.util.UpdateUtils.updateIfNotNull;
 
 
 @ApplicationScoped
@@ -21,18 +27,6 @@ public class RecipeService {
 
     @Inject
     RecipeRepository recipeRepository;
-
-    @Inject
-    MacroIngredientRepository macroIngredientRepository;
-
-    @Inject
-    DifficultyRepository difficultyRepository;
-
-    @Inject
-    DietRepository dietRepository;
-
-    @Inject
-    MicroIngredientRepository microIngredientRepository;
 
     @Inject
     RecipeMapper recipeMapper;
@@ -66,6 +60,7 @@ public class RecipeService {
 
         return recipeMapper.recipeDTOFromEntity(recipeEntity);
     }
+
 
     public List<RecipeEntity> getRecipesByRequirements(RecipeRequirementsDTO requirements) {
 
@@ -116,6 +111,36 @@ public class RecipeService {
         }
 
         return recipeRepository.findByDynamicQuery(query, params);
+    }
+
+    @Transactional
+    public RecipeDTO updateRecipe(RecipeDTO recipeDTO) {
+        Optional<RecipeEntity> recipeEntityOptional = recipeRepository.find("id", recipeDTO.getId()).firstResultOptional();
+
+        LOG.debug("Updating recipe with ID: " + recipeDTO.getId());
+
+        if (recipeEntityOptional.isPresent()) {
+            final RecipeEntity recipeEntity = getRecipe(recipeDTO, recipeEntityOptional);
+
+            LOG.debug("Successfully updated recipe with ID: " + recipeDTO.getId());
+            return recipeMapper.recipeDTOFromEntity(recipeEntity);
+        } else {
+            LOG.error("Recipe not found with ID: " + recipeDTO.getId());
+            throw new NotFoundException("Recipe not found with ID: " + recipeDTO.getId());
+        }
+    }
+
+    private static @NotNull RecipeEntity getRecipe(RecipeDTO recipeDTO, Optional<RecipeEntity> recipeEntityOptional) {
+            RecipeEntity recipeEntity = recipeEntityOptional.get();
+
+            recipeEntity.setTitle(updateIfNotNull(recipeDTO.getTitle(), recipeEntity.getTitle()));
+            recipeEntity.setDescription(updateIfNotNull(recipeDTO.getDescription(), recipeEntity.getDescription()));
+            recipeEntity.setCookingInstructions(updateIfNotNull(recipeDTO.getCookingInstructions(), recipeEntity.getCookingInstructions()));
+            recipeEntity.setCookingTime(updateIfNotNull(recipeDTO.getCookingTime(), recipeEntity.getCookingTime()));
+            recipeEntity.setPreparationTime(updateIfNotNull(recipeDTO.getPreparationTime(), recipeEntity.getPreparationTime()));
+            recipeEntity.setServes(updateIfNotNull(recipeDTO.getServes(), recipeEntity.getServes()));
+
+            return recipeEntity;
     }
 }
 
