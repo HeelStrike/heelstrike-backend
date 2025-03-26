@@ -4,24 +4,24 @@ import java.util.List;
 import java.util.Set;
 
 public class RecipeDTO {
-    private long id;
+    private Long id;
     private String title;
     private String description;
     private String cookingInstructions;
     private String cookingTime;
     private String preparationTime;
-    private int serves;
+    private Integer serves;
     private String difficulty;
     private Set<MacroIngredientDTO> macroIngredients;
     private Set<MicroIngredientDTO> microIngredients;
     private Set<AllergenDTO> allergens;
     private Set<DietDTO> dietarySuitability;
 
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -65,11 +65,11 @@ public class RecipeDTO {
         this.preparationTime = preparationTime;
     }
 
-    public int getServes() {
+    public Integer getServes() {
         return this.serves;
     }
 
-    public void setServes(int serves) {
+    public void setServes(Integer serves) {
         this.serves = serves;
     }
 
