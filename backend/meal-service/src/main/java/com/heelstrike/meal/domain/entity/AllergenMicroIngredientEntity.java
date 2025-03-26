@@ -14,7 +14,7 @@ public class AllergenMicroIngredientEntity {
             updatable = false,
             nullable = false
     )
-    private long id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "allergen_id", nullable = false)
@@ -25,11 +25,11 @@ public class AllergenMicroIngredientEntity {
     @JoinColumn(name = "micro_ingredient_id", nullable = false)
     private MicroIngredientEntity microIngredient;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
