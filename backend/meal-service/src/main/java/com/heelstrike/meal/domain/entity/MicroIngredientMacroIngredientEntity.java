@@ -12,7 +12,7 @@ public class MicroIngredientMacroIngredientEntity {
             updatable = false,
             nullable = false
     )
-    private long id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "macro_ingredient_id", nullable = false)
@@ -22,7 +22,7 @@ public class MicroIngredientMacroIngredientEntity {
     @JoinColumn(name = "micro_ingredient_id", nullable = false)
     private MicroIngredientEntity microIngredient;
 
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
 
