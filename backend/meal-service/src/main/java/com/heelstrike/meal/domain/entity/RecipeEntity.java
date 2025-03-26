@@ -17,7 +17,7 @@ public class RecipeEntity {
             updatable = false,
             nullable = false
     )
-    private long id;
+    private Long id;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -65,7 +65,7 @@ public class RecipeEntity {
     )
     private Set<DietEntity> dietarySuitability;
 
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
 
