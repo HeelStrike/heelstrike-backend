@@ -1,6 +1,5 @@
 package com.heelstrike.meal.application.mapper;
 
-import com.heelstrike.meal.application.service.RecipeService;
 import com.heelstrike.meal.domain.dto.*;
 import com.heelstrike.meal.domain.entity.DietEntity;
 import com.heelstrike.meal.domain.entity.DifficultyEntity;
@@ -9,15 +8,14 @@ import com.heelstrike.meal.domain.entity.RecipeEntity;
 import com.heelstrike.meal.domain.repository.DietRepository;
 import com.heelstrike.meal.domain.repository.DifficultyRepository;
 import com.heelstrike.meal.domain.repository.MacroIngredientRepository;
-import com.heelstrike.meal.domain.repository.RecipeRepository;
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import org.jboss.logging.Logger;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@ApplicationScoped
+@Singleton
 public class RecipeMapper {
 
     private static final Logger LOG = Logger.getLogger(RecipeMapper.class);
