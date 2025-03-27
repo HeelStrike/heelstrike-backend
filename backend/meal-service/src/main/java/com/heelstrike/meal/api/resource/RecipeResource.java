@@ -6,7 +6,6 @@ import com.heelstrike.meal.application.service.RecipeService;
 import com.heelstrike.meal.domain.dto.RecipeDTO;
 import com.heelstrike.meal.domain.dto.RecipeRequirementsDTO;
 import com.heelstrike.meal.domain.entity.RecipeEntity;
-import io.quarkus.security.identity.SecurityIdentity;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -66,6 +65,11 @@ public class RecipeResource {
 
     @POST
     @Path("/search")
+    @Operation(summary = "Search for a Recipe", description = "Returns List of Recipes based upon search criteria / requirements.")
+    @APIResponses({
+            @APIResponse(responseCode = "200", description = "Returns List of Recipes."),
+            @APIResponse(responseCode = "403", description = "Not found.")
+    })
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response getRecipeByRequirements(
@@ -88,6 +92,10 @@ public class RecipeResource {
 
     @PUT
     @Path("/update")
+    @Operation(summary = "Updates a Recipe", description = "Updates a recipe.")
+    @APIResponses({
+            @APIResponse(responseCode = "200", description = "Returns response containing DTO of updated recipe."),
+    })
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateRecipe(RecipeDTO recipeDTO) {
@@ -98,6 +106,11 @@ public class RecipeResource {
 
     @DELETE
     @Path("/delete")
+    @Operation(summary = "Delete a Recipe", description = "Deletes a recipe.")
+    @APIResponses({
+            @APIResponse(responseCode = "200", description = "Returns response containing DTO of deleted recipe."),
+            @APIResponse(responseCode = "403", description = "Not found.")
+    })
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteRecipe(RecipeDTO recipeDTO) {
