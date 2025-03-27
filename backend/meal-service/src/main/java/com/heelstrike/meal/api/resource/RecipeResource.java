@@ -24,7 +24,8 @@ public class RecipeResource {
 
     @POST
     @Path("/add")
-    @Consumes("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response addRecipe(RecipeDTO recipeDTO) {
         recipeService.addRecipe(recipeDTO);
         return Response.ok(recipeDTO).build();
@@ -37,7 +38,8 @@ public class RecipeResource {
     * */
     @GET
     @Path("/get")
-    @Consumes("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response getRecipe(
             @QueryParam("id") Long id,
             @QueryParam("title") String title,
@@ -53,7 +55,7 @@ public class RecipeResource {
     }
 
     @POST
-    @Path("/search")
+    @Path("/search?limit=20&offset=0")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response getRecipeByRequirements(RecipeRequirementsDTO requirementsDTO) {
@@ -66,7 +68,7 @@ public class RecipeResource {
         return Response.status(Response.Status.NOT_FOUND).build();
     }
 
-    @POST
+    @PUT
     @Path("/update")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -76,7 +78,7 @@ public class RecipeResource {
         return Response.ok(updatedRecipeDTO).build();
     }
 
-    @POST
+    @DELETE
     @Path("/delete")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
