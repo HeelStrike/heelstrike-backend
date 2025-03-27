@@ -59,7 +59,9 @@ public class RecipeResource {
             return Response.ok(recipe).build();
         }
 
-        return Response.status(Response.Status.NOT_FOUND).build();
+        return Response.status(Response.Status.NOT_FOUND)
+                .entity(new ErrorResponse("No recipes found."))
+                .build();
     }
 
     @POST
