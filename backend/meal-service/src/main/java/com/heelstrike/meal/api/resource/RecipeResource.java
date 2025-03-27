@@ -1,6 +1,7 @@
-package com.heelstrike.meal.api;
+package com.heelstrike.meal.api.resource;
 
 
+import com.heelstrike.meal.api.exception.ErrorResponse;
 import com.heelstrike.meal.application.service.RecipeService;
 import com.heelstrike.meal.domain.dto.RecipeDTO;
 import com.heelstrike.meal.domain.dto.RecipeRequirementsDTO;
@@ -10,10 +11,11 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 @Path("/recipe")
 //@RolesAllowed("User")
@@ -24,6 +26,7 @@ public class RecipeResource {
 
     @POST
     @Path("/add")
+    @Operation
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addRecipe(RecipeDTO recipeDTO) {
@@ -38,6 +41,11 @@ public class RecipeResource {
     * */
     @GET
     @Path("/get")
+    @Operation(summary = "Get a recipe", description = "Returns a Recipe by its ID.")
+    @APIResponses({
+            @APIResponse(responseCode = "200", description = "Returns a Recipe by its ID as JSON."),
+            @APIResponse(responseCode = "404", description = "Recipe not found, likely not present within the database.")
+    })
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response getRecipe(
