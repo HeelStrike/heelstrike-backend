@@ -55,17 +55,25 @@ public class RecipeResource {
     }
 
     @POST
-    @Path("/search?limit=20&offset=0")
+    @Path("/search")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response getRecipeByRequirements(RecipeRequirementsDTO requirementsDTO) {
+    public Response getRecipeByRequirements(
+            @BeanParam RecipeRequirementsDTO requirementsDTO,
+            @QueryParam("limit") @DefaultValue("20") int limit,
+            @QueryParam("offset") @DefaultValue("0") int offset,
+            @QueryParam("sortBy") @DefaultValue("title") String sortBy,
+            @QueryParam("sortOrder") @DefaultValue("asc") String sortOrder
+    ) {
         List<RecipeEntity> recipes = recipeService.getRecipesByRequirements(requirementsDTO);
 
         if (!recipes.isEmpty()) {
             return Response.ok(recipes).build();
         }
 
-        return Response.status(Response.Status.NOT_FOUND).build();
+        return Response.status(Response.Status.NOT_FOUND)
+                .entity(new ErrorResponse("No recipes found by specified search criteria."))
+                .build();
     }
 
     @PUT
