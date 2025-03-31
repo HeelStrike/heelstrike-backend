@@ -63,6 +63,7 @@ public class RecipeResource {
                 .build();
     }
 
+    //TODO: Implement pagination properly.
     @POST
     @Path("/search")
     @Operation(summary = "Search for a Recipe", description = "Returns List of Recipes based upon search criteria / requirements.")
@@ -72,8 +73,8 @@ public class RecipeResource {
     })
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response getRecipeByRequirements(
-            @BeanParam RecipeRequirementsDTO requirementsDTO,
+    public Response searchRecipes(
+            RecipeRequirementsDTO requirementsDTO,
             @QueryParam("limit") @DefaultValue("20") int limit,
             @QueryParam("offset") @DefaultValue("0") int offset,
             @QueryParam("sortBy") @DefaultValue("title") String sortBy,
