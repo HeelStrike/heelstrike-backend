@@ -23,11 +23,11 @@ public class RecipeDTO {
             description = "Step-by-step cooking instructions")
     private String cookingInstructions;
 
-    @Schema(examples = "1h 30m", description = "Total cooking time")
-    private String cookingTime;
+    @Schema(examples = "60.5", description = "Total cooking time (60.5 = 1h 0m 30s")
+    private Float cookingTime;
 
-    @Schema(examples = "30m", description = "Preparation time before cooking")
-    private String preparationTime;
+    @Schema(examples = "32", description = "Preparation time before cooking (32 = 0h 32m 0s")
+    private Float preparationTime;
 
     @Schema(examples = "4", description = "Number of servings")
     private Integer serves;
@@ -80,19 +80,19 @@ public class RecipeDTO {
         this.cookingInstructions = cookingInstructions;
     }
 
-    public String getCookingTime() {
+    public Float getCookingTime() {
         return this.cookingTime;
     }
 
-    public void setCookingTime(String cookingTime) {
+    public void setCookingTime(Float cookingTime) {
         this.cookingTime = cookingTime;
     }
 
-    public String getPreparationTime() {
+    public Float getPreparationTime() {
         return preparationTime;
     }
 
-    public void setPreparationTime(String preparationTime) {
+    public void setPreparationTime(Float preparationTime) {
         this.preparationTime = preparationTime;
     }
 
