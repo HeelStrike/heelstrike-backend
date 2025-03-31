@@ -29,10 +29,10 @@ public class RecipeEntity {
     private String cookingInstructions;
 
     @Column(name = "preparation_time")
-    private String preparationTime;
+    private Float preparationTime;
 
     @Column(name = "cooking_time")
-    private String cookingTime;
+    private Float cookingTime;
 
     @Column(name = "serves")
     private int serves;
@@ -93,19 +93,19 @@ public class RecipeEntity {
         this.cookingInstructions = cookingInstructions;
     }
 
-    public String getPreparationTime() {
+    public Float getPreparationTime() {
         return preparationTime;
     }
 
-    public void setPreparationTime(String preparationTime) {
+    public void setPreparationTime(Float preparationTime) {
         this.preparationTime = preparationTime;
     }
 
-    public String getCookingTime() {
+    public Float getCookingTime() {
         return this.cookingTime;
     }
 
-    public void setCookingTime(String cookingTime) {
+    public void setCookingTime(Float cookingTime) {
         this.cookingTime = cookingTime;
     }
 
