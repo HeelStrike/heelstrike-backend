@@ -11,8 +11,8 @@ CREATE TABLE IF NOT EXISTS recipe (
     title VARCHAR(100) NOT NULL,
     description TEXT,
     cooking_instructions TEXT,
-    preparation_time TEXT,
-    cooking_time TEXT,
+    preparation_time FLOAT,
+    cooking_time FLOAT,
     serves INT CHECK (serves > 0),
     difficulty_id BIGINT REFERENCES difficulty(id)
 );
@@ -93,19 +93,12 @@ CREATE TABLE IF NOT EXISTS recipe_macro_ingredient (
 COMMENT ON TABLE recipe_macro_ingredient IS 'Joins tables macro_ingredient and recipe for Many-To-Many relationship.';
 
 
--- CREATE TABLE IF NOT EXISTS recipe_micro_ingredient (
---     id BIGSERIAL PRIMARY KEY,
---     recipe_id BIGINT NOT NULL REFERENCES recipe(id) ON DELETE CASCADE,
---     micro_ingredient_id BIGINT NOT NULL REFERENCES micro_ingredient(id) ON DELETE CASCADE,
---     UNIQUE (recipe_id, micro_ingredient_id)
--- );
--- COMMENT ON TABLE recipe_micro_ingredient IS 'Joins tables micro_ingredient and recipe for Many-To-Many relationship.';
-
 CREATE TABLE IF NOT EXISTS allergen (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(64) NOT NULL UNIQUE
 );
 COMMENT ON TABLE allergen IS 'Table for storing allergens.';
+
 
 CREATE TABLE IF NOT EXISTS allergen_micro_ingredient (
     id BIGSERIAL PRIMARY KEY,
