@@ -1,8 +1,11 @@
 package com.heelstrike.meal.domain.dto;
 
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 import java.util.List;
 import java.util.Set;
 
+@Schema(description = "A major ingredient in a recipe, typically a combination of micro-ingredients (e.g., Tomato Pasata, Pesto, Chunky Chips etc...).")
 public class MacroIngredientDTO {
     private long id;
     private String name;
