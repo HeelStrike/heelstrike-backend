@@ -14,7 +14,8 @@ CREATE TABLE IF NOT EXISTS recipe (
     preparation_time FLOAT,
     cooking_time FLOAT,
     serves INT CHECK (serves > 0),
-    difficulty_id BIGINT REFERENCES difficulty(id)
+    difficulty_id BIGINT REFERENCES difficulty(id),
+    type_id BIGINT REFERENCES recipe_type(id)
 );
 COMMENT ON TABLE recipe IS 'Table for storing recipe data.';
 
@@ -22,8 +23,14 @@ CREATE TABLE IF NOT EXISTS diet (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(26) NOT NULL UNIQUE
 );
-COMMENT ON TABLE diet IS 'Table for storing diet names, e.g. Halal, Vegan, Keto, etc.';
+COMMENT ON TABLE diet IS 'Table for storing diet names, e.g. Halal, Vegan, Keto, etc...';
 
+
+CREATE TABLE IF NOT EXISTS recipe_type (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(9) NOT NULL
+);
+COMMENT ON TABLE recipe_type IS 'Table for storing type of recipe, e.g. Breakfast, Lunch, Dinner etc...'
 
 CREATE TABLE IF NOT EXISTS recipe_dietary_suitability (
     id BIGSERIAL PRIMARY KEY,
