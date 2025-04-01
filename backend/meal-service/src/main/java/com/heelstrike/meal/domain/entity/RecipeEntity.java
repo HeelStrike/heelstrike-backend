@@ -43,7 +43,7 @@ public class RecipeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_type_id")
-    private RecipeTypeEntity
+    private RecipeTypeEntity recipeType;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -127,6 +127,14 @@ public class RecipeEntity {
 
     public void setDifficulty(DifficultyEntity difficulty) {
         this.difficulty = difficulty;
+    }
+
+    public RecipeTypeEntity getRecipeType() {
+        return this.recipeType;
+    }
+
+    public void setRecipeType(RecipeTypeEntity recipeType) {
+        this.recipeType = recipeType;
     }
 
     public Set<MacroIngredientEntity> getMacroIngredients() {
