@@ -41,6 +41,10 @@ public class RecipeEntity {
     @JoinColumn(name = "difficulty_id")
     private DifficultyEntity difficulty;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recipe_type_id")
+    private RecipeTypeEntity
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "recipe_macro_ingredient",
