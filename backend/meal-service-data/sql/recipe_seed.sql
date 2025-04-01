@@ -12,6 +12,16 @@ INSERT INTO diet (name)
         ('High Protein'),
         ('All');
 
+INSERT INTO recipe_type (name)
+VALUES
+    ('breakfast'),
+    ('lunch'),
+    ('dinner'),
+    ('snack'),
+    ('afternoon tea'),
+    ('supper'),
+    ('desert');
+
 INSERT INTO macro_ingredient (name)
     VALUES
     ('Baked Beans'),
