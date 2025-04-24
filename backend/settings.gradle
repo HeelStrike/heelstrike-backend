@@ -18,5 +18,5 @@ include ':heelstrike-core'
 project(':heelstrike-core').projectDir = file('heelstrike-core')
 
 include ':auth-service'
-project(':auth-service').projectDir = file("../auth-service")
+project(':auth-service').projectDir = file('auth-service')
 
