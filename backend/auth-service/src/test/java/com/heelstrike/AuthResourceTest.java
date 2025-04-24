@@ -38,7 +38,7 @@ class GenerateTokenTest {
         this.userDTO.setPrimaryEmail("testuser@gmail.com");
         this.userDTO.setSecondaryEmail("test.user@workplace.uk");
         this.userDTO.setRoleId(1L);
-        this.userDTO.setMobile(7713422893L);
+        this.userDTO.setMobile("07713422893");
 
         mockTokenService = mock(TokenService.class);
         QuarkusMock.installMockForType(mockTokenService, TokenService.class);
