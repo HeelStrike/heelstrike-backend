@@ -6,12 +6,11 @@ public class UserDTO {
 
     private UUID uuid;
     private String username;
-    // Plain Text Password:
-    private String password;
+    private String password; // <-- Plain Text Password.
     private String passwordHash;
     private String primaryEmail;
     private String secondaryEmail;
-    private long mobile;
+    private String mobile;
     private Long roleId;
 
     public UserDTO() {}
@@ -21,7 +20,7 @@ public class UserDTO {
     }
 
     public UUID getUuid() {
-        return this.uuid;
+        return uuid;
     }
 
     public void setUsername(String username) {
@@ -29,7 +28,7 @@ public class UserDTO {
     }
 
     public String getUsername() {
-        return this.username;
+        return username;
     }
 
     public void setPassword(String password) {
@@ -37,7 +36,7 @@ public class UserDTO {
     }
 
     public String getPassword() {
-        return this.password;
+        return password;
     }
 
     public void setPasswordHash(String passwordHash) {
@@ -53,7 +52,7 @@ public class UserDTO {
     }
 
     public String getPrimaryEmail() {
-        return this.primaryEmail;
+        return primaryEmail;
     }
 
     public void setSecondaryEmail(String secondaryEmail) {
@@ -61,15 +60,15 @@ public class UserDTO {
     }
 
     public String getSecondaryEmail() {
-        return this.secondaryEmail;
+        return secondaryEmail;
     }
 
-    public void setMobile(long mobile) {
+    public void setMobile(String mobile) {
         this.mobile = mobile;
     }
 
-    public long getMobile() {
-        return this.mobile;
+    public String getMobile() {
+        return mobile;
     }
 
     public void setRoleId(Long roleId) {
@@ -77,6 +76,6 @@ public class UserDTO {
     }
 
     public Long getRoleId() {
-        return this.roleId;
+        return roleId;
     }
 }
