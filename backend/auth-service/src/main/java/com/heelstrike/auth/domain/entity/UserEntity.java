@@ -25,7 +25,7 @@ public class UserEntity {
     private String secondaryEmail;
 
     @Column (name = "mobile")
-    private long mobile;
+    private String mobile;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
@@ -71,11 +71,11 @@ public class UserEntity {
         return this.secondaryEmail;
     }
 
-    public void setMobile(long newMobile) {
+    public void setMobile(String newMobile) {
         this.mobile = newMobile;
     }
 
-    public long getMobile() {
+    public String getMobile() {
         return this.mobile;
     }
 
