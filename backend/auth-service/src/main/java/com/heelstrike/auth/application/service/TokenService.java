@@ -67,7 +67,7 @@ public class TokenService {
                     .issuer("https://heelstrike.app")
                     .subject(username)
                     .claim("role", roleEntity.getName())
-                    .expiresIn(Duration.ofHours(2))
+                    .expiresIn(Duration.ofMinutes(15))
                     .sign();
 
         } catch (Exception e) {
