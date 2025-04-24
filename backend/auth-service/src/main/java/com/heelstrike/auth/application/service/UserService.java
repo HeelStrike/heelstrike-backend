@@ -84,7 +84,7 @@ public class UserService {
         }
 
         //TODO: Refactor this so mobile number is a String. No idea why I thought long would be a good idea.
-        if (userDTO.getMobile() != -1) {
+        if (userDTO.getMobile() != null) {
             userEntity.setMobile(userDTO.getMobile());
         }
 
