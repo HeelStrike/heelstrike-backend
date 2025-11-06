@@ -1,2 +1,2 @@
-# HeelStrike Backend
-![SuperLapLogoShrunk](https://github.com/user-attachments/assets/28fe5416-de63-4a4a-a15f-a8aceb594a56)
+# HeelStrike Backend - Legacy
+Old backend repository for the HeelStrike app, this project has since been archived.
